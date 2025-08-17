@@ -1,21 +1,6 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
-
-interface Word {
-  id: number
-  created_at: number
-  group_id: number
-  word: string
-}
-
-interface WordsState {
-  words: Word[]
-  loading: boolean
-  error: string | null
-
-}
-
-type GroupedWords = Record<number, Word[]>
+import type { Word, WordsState, GroupedWords } from '@/types/words'
 
 export const useWordsStore = defineStore('words', {
   state: (): WordsState => ({
