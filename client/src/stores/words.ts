@@ -9,18 +9,6 @@ export const useWordsStore = defineStore('words', {
     error: null,
   }),
 
-  getters: {
-    groupedWords: (state): GroupedWords => {
-      return state.words.reduce((groups, word) => {
-        if(!groups[word.group_id]) {
-          groups[word.group_id] = []
-        }
-        groups[word.group_id].push(word)
-        return groups
-      }, {} as GroupedWords)
-    }
-  },
-
   actions: {
     async fetchWords() {
       this.loading = true

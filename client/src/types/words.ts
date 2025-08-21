@@ -9,7 +9,6 @@ export interface WordsState {
   words: Word[]
   loading: boolean
   error: string | null
-
 }
 
 export type GroupedWords = Record<number, Word[]>
