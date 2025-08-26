@@ -5,7 +5,7 @@ import { useAuthStore } from "./auth"
 import axios from 'axios'
 import type { LearnedGroupsState, LearnedGroup } from "@/types/learned"
 import type { GroupedWords } from "@/types/words"
-import type { Group } from "@/types/groups"
+import type { GroupWithWords } from '@/types/derived'
 
 export const useLearnedsStore = defineStore('learned', {
   state: (): LearnedGroupsState => ({
@@ -16,7 +16,7 @@ export const useLearnedsStore = defineStore('learned', {
   }),
 
   getters: {
-    separateLearningGroups: (state): {learnedWords: any[], wordsToLearn: any[]} => {
+    separateLearningGroups: (state): {learnedWords: GroupWithWords[], wordsToLearn: GroupWithWords[]} => {
       const groupStore = useGroupsStore()
       const wordsStore = useWordsStore()
       const authStore = useAuthStore()

@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
-import type { Word, WordsState, GroupedWords } from '@/types/words'
+import type { Word, WordsState } from '@/types/words'
 
 export const useWordsStore = defineStore('words', {
   state: (): WordsState => ({
