@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { computed, onMounted } from 'vue'
-import AppHeader from '@/components/AppHeader.vue'
 import { useWordsStore } from '@/stores/words'
 import { useGroupsStore } from '@/stores/groups'
 import { useDictionaryStore } from '@/stores/dictionary'
@@ -25,16 +24,13 @@ const learned = computed(() => learnedStore.learned_groups)
 </script>
 
 <template>
-  <AppHeader/>
   <div>Home</div>
-  <router-link to="/login">login</router-link>
-  <router-link to="/register">register</router-link>
   <router-link to="/training">Go to Training</router-link>
   <ul>
-  <li v-for="group in learned" :key="group.id">
-    {{ group.group_id }}
-  </li>
-</ul>
+    <li v-for="group in learned" :key="group.id">
+      Group: {{ group.group_id }} User: {{ group.user_id }}
+    </li>
+  </ul>
   <div class="words">
     <h2>Homophones Group</h2>
     <ul

@@ -11,8 +11,6 @@ export const useDictionaryStore = defineStore('dictionary', {
 
       const fullGroups = groupsStore.groups.filter(g => g.additional_to_id === 0)
 
-      console.log('fullGroups', fullGroups)
-
       const wordsByGroup = wordsStore.words.reduce((acc, word) => {
         if(!acc[word.group_id]) acc[word.group_id] = []
         acc[word.group_id].push(word)
@@ -25,8 +23,6 @@ export const useDictionaryStore = defineStore('dictionary', {
           ...g,
           words: wordsByGroup[g.id] || []
         }))
-
-        console.log('homophonesGroup', homophonesGroup)
 
       const nonHomophonesGroup = fullGroups
         .filter(g => !g.homophones)
