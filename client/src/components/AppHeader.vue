@@ -11,8 +11,18 @@
 </script>
 
 <template>
-  <div>Header</div>
-  <router-link to="/auth/login">login</router-link>
-  <router-link to="/auth/register">register</router-link>
-  <button @click="logout" class="btn-logout">Logout</button>
+  <div class="flex flex-row justify-between bg-gradient-to-r from-emerald-400 to-cyan-400">
+    <div class="text-white hover:text-blue-50 text-2xl m-5 font-extrabold cursor-pointer">Homophones Trainer</div>
+    <div class="flex items-center font-light gap-5 mr-7">
+      <template v-if="!auth.isAuthenticated">
+        <div class="flex text-white hover:text-blue-100 cursor-pointer">
+          <router-link to="/auth/login">Login</router-link>
+        </div>
+        <div class="flex text-white hover:text-blue-100 cursor-pointer">
+          <router-link to="/auth/register">Register</router-link>
+        </div>
+      </template>
+      <button v-else @click="logout" class="flex text-white hover:text-blue-100 cursor-pointer">Logout</button>
+    </div>
+  </div>
 </template>
