@@ -25,14 +25,14 @@ const learned = computed(() => learnedStore.learned_groups)
 
 <template>
   <div class="flex flex-col">
-    <div class="flex justify-center my-10">
-      <div class="bg-gradient-to-t from-fuchsia-800 via-fuchsia-700 to-pink-500 text-white text-3xl rounded-2xl py-5 px-35 max-w-[calc(100%-30px)] text-center">
+    <div class="flex justify-center mt-15 mb-20">
+      <div class="bg-gradient-to-br from-slate-700 via-emerald-900 to-teal-500 text-white text-3xl rounded-2xl py-5 px-35 max-w-[calc(100%-30px)] text-center">
         <router-link to="/training" class="inline-block">Go to Training</router-link>
       </div>
     </div>
     <div class="flex flex-col md:flex-row justify-center gap-10 items-start">
-      <section class="flex flex-col w-full md:w-2/3 lg:w-1/2 bg-blue-900 text-cyan-50 p-y-20 rounded-lg">
-        <h2 class="flex justify-center items-center text-xl w-full h-15 bg-gradient-to-b from-teal-300 via-teal-400 to-teal-400 rounded-t-lg">Homophones Group</h2>
+      <section class="flex flex-col w-full md:w-2/3 lg:w-1/2 bg-cyan-800 text-cyan-50 p-y-20 rounded-lg">
+        <h2 class="flex justify-center items-center text-xl w-full h-15 bg-gradient-to-b text-teal-900 from-teal-300 via-teal-400 to-teal-400 rounded-t-lg">Homophones Group</h2>
         <div class="flex flex-col mt-7 mb-5">
           <ul
             v-for="group in homophonesGroup"
@@ -53,8 +53,8 @@ const learned = computed(() => learnedStore.learned_groups)
           </ul>
         </div>
       </section>
-      <section class="flex flex-col w-full md:w-2/3 lg:w-1/2 bg-blue-900 text-cyan-50 p-y-20 rounded-lg">
-        <h2 class="flex justify-center items-center text-xl w-full h-15 bg-gradient-to-b from-teal-300 via-teal-400 to-teal-400 rounded-t-lg">Non-Homophones Group</h2>
+      <section class="flex flex-col w-full md:w-2/3 lg:w-1/2 bg-cyan-800 text-cyan-50 p-y-20 rounded-lg">
+        <h2 class="flex justify-center items-center text-xl w-full h-15 bg-gradient-to-b text-teal-900 from-teal-300 via-teal-400 to-teal-400 rounded-t-lg">Non-Homophones Group</h2>
         <div class="flex flex-col mt-7 mb-5">
           <ul
             v-for="group in nonHomophonesGroup"
