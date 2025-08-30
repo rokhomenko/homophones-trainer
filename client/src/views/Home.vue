@@ -25,8 +25,8 @@ const learned = computed(() => learnedStore.learned_groups)
 
 <template>
   <div class="flex flex-col">
-    <div class="flex justify-center mt-15 mb-20">
-      <div class="bg-gradient-to-br from-slate-700 via-emerald-900 to-teal-500 text-white text-3xl rounded-2xl py-5 px-35 max-w-[calc(100%-30px)] text-center">
+    <div class="flex justify-center mt-5 sm:mt-7 md:mt-10 lg:mt-15 mb-7 sm:mb-12 md:mb-15 lg:mb-20">
+      <div class="bg-gradient-to-br from-slate-700 via-emerald-900 to-teal-500 text-white text-lg sm:text-xl md:text-2xl lg:text-3xl rounded-2xl py-3 sm:py-4 md:py-5 px-8 sm:px-12 md:px-20 lg:px-35 max-w-[calc(100%-30px)] text-center">
         <router-link to="/training" class="inline-block">Go to Training</router-link>
       </div>
     </div>
