@@ -3,12 +3,12 @@ import { computed, onMounted } from 'vue'
 import { useWordsStore } from '@/stores/words'
 import { useGroupsStore } from '@/stores/groups'
 import { useDictionaryStore } from '@/stores/dictionary'
-import { useLearnedsStore } from '@/stores/learned'
+import { useLearnedStore } from '@/stores/learned'
 
 const wordsStore = useWordsStore();
 const groupsStore = useGroupsStore();
 const dictionaryStore = useDictionaryStore();
-const learnedStore = useLearnedsStore();
+const learnedStore = useLearnedStore();
 
 onMounted(async () => {
  await Promise.all([

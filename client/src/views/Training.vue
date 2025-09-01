@@ -2,11 +2,11 @@
   import { computed, onMounted } from 'vue'
   import { useWordsStore } from '@/stores/words'
   import { useGroupsStore } from '@/stores/groups'
-  import { useLearnedsStore } from '@/stores/learned'
+  import { useLearnedStore } from '@/stores/learned'
 
   const wordsStore = useWordsStore()
   const groupsStore = useGroupsStore()
-  const learnedStore = useLearnedsStore()
+  const learnedStore = useLearnedStore()
 
   onMounted(async () => {
     await Promise.all([

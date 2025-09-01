@@ -7,7 +7,7 @@ import type { LearnedGroupsState, LearnedGroup } from "@/types/learned"
 import type { GroupedWords } from "@/types/words"
 import type { GroupWithWords } from '@/types/derived'
 
-export const useLearnedsStore = defineStore('learned', {
+export const useLearnedStore = defineStore('learned', {
   state: (): LearnedGroupsState => ({
     learned_groups: [],
     learnedMap: {},
