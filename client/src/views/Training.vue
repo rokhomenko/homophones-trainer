@@ -3,10 +3,13 @@
   import { useWordsStore } from '@/stores/words'
   import { useGroupsStore } from '@/stores/groups'
   import { useLearnedStore } from '@/stores/learned'
+  import { useTrainingStore } from '@/stores/training'
+  //import type { GroupWithWords } from '@/types/derived'
 
   const wordsStore = useWordsStore()
   const groupsStore = useGroupsStore()
   const learnedStore = useLearnedStore()
+  const trainingStore = useTrainingStore()
 
   onMounted(async () => {
     await Promise.all([
@@ -14,15 +17,15 @@
       wordsStore.fetchWords(),
       learnedStore.fetchLearned()
     ])
-  })
 
-  const wordsToLearn = computed(() => learnedStore.separateLearningGroups.wordsToLearn)
+    trainingStore.initTraining()
+  })
 </script>
 
 <template>
   <div>
     <ul
-      v-for="group in wordsToLearn"
+      v-for="group in trainingStore.trainingGroups"
       :key="group.id"
     >
       <li
