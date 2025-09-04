@@ -30,7 +30,7 @@ export const useTrainingStore = defineStore('training', {
         })
         return {
           id: group.id,
-          homophones: false,
+          homophones: group.homophones,
           words: group.words,
           wordStats: wordStats
         }
