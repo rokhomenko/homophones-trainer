@@ -5,6 +5,8 @@ export interface TrainingState {
   trainingGroups: TrainingGroup[]
   finished: boolean
   wordStats: WordStats
+  trainingQueue: TrainingQueueItem[]
+  currentWordIndex: number
 }
 
 export interface WordStat {
@@ -20,3 +22,8 @@ export interface TrainingGroup {
 }
 
 export type WordStats = Record<number, WordStat>
+
+export interface TrainingQueueItem {
+  word: Word
+  group: TrainingGroup
+}

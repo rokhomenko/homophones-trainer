@@ -20,20 +20,33 @@
 
     trainingStore.initTraining()
   })
+
+  function nextWord() {
+      if(trainingStore.currentWordIndex < trainingStore.trainingQueue.length - 1) {
+        trainingStore.currentWordIndex++
+      } else {
+        trainingStore.finished = true
+      }
+    }
 </script>
 
 <template>
-  <div>
-    <ul
-      v-for="group in trainingStore.trainingGroups"
-      :key="group.id"
-    >
-      <li
-        v-for="word in group.words"
-        :key="group.id"
-      >
-        {{ word.word }}
-      </li>
-    </ul>
+  <div v-if="!trainingStore.finished">
+    <button @click="nextWord()">
+      {{ trainingStore.currentWordIndex < trainingStore.trainingQueue.length - 1 ? 'Next' : 'Finish' }}
+    </button>
+    <div>
+      {{ trainingStore.currentWord?.word.word }}
+    </div>
+    <div>
+      <ul>
+        <li v-for="w in trainingStore.currentWord?.group.words" :key="w.id">
+          {{ w.word }}
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div v-else>
+    <div>Training is finished</div>
   </div>
 </template>

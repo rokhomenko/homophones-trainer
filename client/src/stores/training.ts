@@ -1,6 +1,6 @@
 import { defineStore } from "pinia"
 import type { Word } from '@/types/words'
-import type { WordStats, WordStat, TrainingState, TrainingGroup } from "@/types/training"
+import type { WordStats, WordStat, TrainingState, TrainingGroup, TrainingQueueItem } from "@/types/training"
 import type { GroupWithWords } from '@/types/derived'
 import { useLearnedStore } from "./learned"
 
@@ -10,8 +10,16 @@ export const useTrainingStore = defineStore('training', {
     currentGroup: 0,
     trainingGroups: [],
     finished: false,
-    wordStats: {}
+    wordStats: {},
+    trainingQueue: [],
+    currentWordIndex: 0
   }),
+
+  getters: {
+    currentWord(state): TrainingQueueItem | null {
+      return state.trainingQueue[state.currentWordIndex] ?? null
+    }
+  },
 
   actions: {
     initTraining() {
@@ -33,8 +41,21 @@ export const useTrainingStore = defineStore('training', {
           homophones: group.homophones,
           words: group.words,
           wordStats: wordStats
-        }
+        } as TrainingGroup
       })
+
+      const queue: TrainingQueueItem[] = []
+      this.trainingGroups.forEach(group => {
+        group.words.forEach(word => {
+          for (let i = 0; i < 3; i++) {
+            queue.push({word, group})
+          }
+        })
+      })
+
+      this.trainingQueue = queue.sort(() => Math.random() - 0.5)
+      this.currentWordIndex = 0
+      this.finished = false
     }
   }
 })
