@@ -21,8 +21,12 @@
     trainingStore.initTraining()
   })
 
+  const hasNextWord = computed(() =>
+    trainingStore.currentWordIndex < trainingStore.trainingQueue.length - 1
+  )
+
   function nextWord() {
-      if(trainingStore.currentWordIndex < trainingStore.trainingQueue.length - 1) {
+      if(hasNextWord.value) {
         trainingStore.currentWordIndex++
       } else {
         trainingStore.finished = true
@@ -33,7 +37,7 @@
 <template>
   <div v-if="!trainingStore.finished">
     <button @click="nextWord()">
-      {{ trainingStore.currentWordIndex < trainingStore.trainingQueue.length - 1 ? 'Next' : 'Finish' }}
+      {{ hasNextWord ? 'Next' : 'Finish' }}
     </button>
     <div>
       {{ trainingStore.currentWord?.word.word }}
