@@ -15,13 +15,12 @@ const onLogin = async () => {
     router.push('/profile')
   }
 }
-
 </script>
 
 <template>
   <div>Login</div>
   <input v-model="email" placeholder="Email"></input>
-  <input v-model="password" placeholder="Password"></input>
+  <input type="password" v-model="password" placeholder="Password"></input>
   <button @click="onLogin" :disabled="auth.loading">
     {{ auth.loading ? 'Loading' : 'Submit' }}
   </button>
