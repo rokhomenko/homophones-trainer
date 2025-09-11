@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { computed, onMounted, watch } from 'vue'
+  import { computed, onMounted, watch, ref } from 'vue'
   import { useWordsStore } from '@/stores/words'
   import { useGroupsStore } from '@/stores/groups'
   import { useLearnedStore } from '@/stores/learned'
@@ -11,6 +11,9 @@
   const groupsStore = useGroupsStore()
   const learnedStore = useLearnedStore()
   const trainingStore = useTrainingStore()
+
+  let showAnswer = ref(false)
+  const selectedWordId = ref<number | null>(null)
 
   onMounted(async () => {
     await Promise.all([
@@ -25,6 +28,8 @@
   watch(
     () => trainingStore.currentWord,
     (newWord) => {
+      showAnswer.value = false
+      selectedWordId.value = null
       if (newWord) speak(newWord.word.word),
       { immediate: true}
     }
@@ -35,20 +40,25 @@
   )
 
   function nextWord() {
-      if(hasNextWord.value) {
-        trainingStore.currentWordIndex++
-      } else {
-        trainingStore.finished = true
-      }
+    if(hasNextWord.value) {
+      trainingStore.currentWordIndex++
+    } else {
+      trainingStore.finished = true
     }
+  }
+
+  function selectWord(wordId: number) {
+    selectedWordId.value = wordId
+    showAnswer.value = true
+  }
 </script>
 
 <template>
-  <div v-if="!trainingStore.finished">
-    <button @click="nextWord()">
+  <div class="flex flex-col" v-if="!trainingStore.finished">
+    <button class="mb-8" @click="nextWord()" :disabled="selectedWordId === null">
       {{ hasNextWord ? 'Next' : 'Finish' }}
     </button>
-    <div>
+    <div v-if="showAnswer">
       {{ trainingStore.currentWord?.word.word }}
     </div>
     <button v-if="trainingStore.currentWord?.word.word" @click="speak(trainingStore.currentWord?.word.word)">
@@ -58,7 +68,15 @@
     </button>
     <div>
       <ul>
-        <li v-for="w in trainingStore.currentWord?.group.words" :key="w.id">
+        <li
+          v-for="w in trainingStore.currentWord?.group.words"
+          :key="w.id"
+          @click="selectWord(w.id)"
+          :class="{
+            'text-green-600 font-bold' : selectedWordId === w.id && w.id === trainingStore.currentWord?.word.id,
+            'text-red-600 font-bold' : selectedWordId === w.id && w.id !== trainingStore.currentWord?.word.id
+          }"
+        >
           {{ w.word }}
         </li>
       </ul>
