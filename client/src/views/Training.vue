@@ -50,6 +50,9 @@
   function selectWord(wordId: number) {
     selectedWordId.value = wordId
     showAnswer.value = true
+
+    const isCorrect = wordId === trainingStore.currentWord?.word.id
+    trainingStore.registerAnswer(wordId, isCorrect)
   }
 </script>
 

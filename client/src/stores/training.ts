@@ -10,7 +10,6 @@ export const useTrainingStore = defineStore('training', {
     currentGroup: 0,
     trainingGroups: [],
     finished: false,
-    wordStats: {},
     trainingQueue: [],
     currentWordIndex: 0
   }),
@@ -56,6 +55,19 @@ export const useTrainingStore = defineStore('training', {
       this.trainingQueue = queue.sort(() => Math.random() - 0.5)
       this.currentWordIndex = 0
       this.finished = false
+    },
+
+    registerAnswer(wordId: number, isCorrect: boolean) {
+      const currentItem = this.currentWord
+      if (!currentItem) return
+
+      const stats = currentItem.group.wordStats[wordId]
+      if (!stats) return
+
+      stats.attempts++
+      if (isCorrect) {
+        stats.correct++
+      }
     }
   }
 })

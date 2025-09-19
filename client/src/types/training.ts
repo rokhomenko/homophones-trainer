@@ -4,7 +4,6 @@ export interface TrainingState {
   currentGroup: number
   trainingGroups: TrainingGroup[]
   finished: boolean
-  wordStats: WordStats
   trainingQueue: TrainingQueueItem[]
   currentWordIndex: number
 }
