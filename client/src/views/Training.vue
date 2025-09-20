@@ -54,6 +54,23 @@
     const isCorrect = wordId === trainingStore.currentWord?.word.id
     trainingStore.registerAnswer(wordId, isCorrect)
   }
+
+  const showResults = computed(() => {
+    return trainingStore.trainingGroups.map(group => {
+      return {
+        groupId: group.id,
+        words: group.words.map(w => {
+          const stat = group.wordStats[w.id]
+          return {
+            id: w.id,
+            word: w.word,
+            attempts: stat?.attempts ?? 0,
+            correct: stat?.correct ?? 0
+          }
+        })
+      }
+    })
+  })
 </script>
 
 <template>
@@ -87,5 +104,23 @@
   </div>
   <div v-else>
     <div>Training is finished</div>
+    <div v-for="group in showResults" :key="group.groupId">
+      <table>
+        <thead>
+          <tr>
+            <th class="border border-gray-400 px-2 py-1">Word</th>
+            <th class="border border-gray-400 px-2 py-1">Attempts</th>
+            <th class="border border-gray-400 px-2 py-1">Correct</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="w in group.words" :key="w.id">
+            <td class="border border-gray-400 px-2 py-1">{{ w.word }}</td>
+            <td class="border border-gray-400 px-2 py-1">{{ w.attempts }}</td>
+            <td class="border border-gray-400 px-2 py-1">{{ w.correct }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
