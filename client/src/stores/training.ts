@@ -33,7 +33,7 @@ export const useTrainingStore = defineStore('training', {
       this.trainingGroups = selected.map(group => {
         const wordStats: WordStats = {}
         group.words.forEach(word => {
-          wordStats[word.id] = { attempts: 0, correct: 0 }
+          wordStats[word.id] = { shown: 0, correct: 0 }
         })
         return {
           id: group.id,
@@ -63,10 +63,15 @@ export const useTrainingStore = defineStore('training', {
 
       const stats = currentItem.group.wordStats[wordId]
       if (!stats) return
+    },
 
-      stats.attempts++
-      if (isCorrect) {
-        stats.correct++
+    countShown() {
+      const currentWord = this.currentWord
+      if (!currentWord) return
+
+      const stats = currentWord.group.wordStats[currentWord.word.id]
+      if (stats) {
+        return stats.shown++
       }
     }
   }

@@ -31,6 +31,7 @@
       showAnswer.value = false
       selectedWordId.value = null
       if (newWord) speak(newWord.word.word),
+      trainingStore.countShown()
       { immediate: true}
     }
   )
@@ -64,7 +65,7 @@
           return {
             id: w.id,
             word: w.word,
-            attempts: stat?.attempts ?? 0,
+            shown: stat?.shown ?? 0,
             correct: stat?.correct ?? 0
           }
         })
@@ -116,7 +117,7 @@
         <tbody>
           <tr v-for="w in group.words" :key="w.id">
             <td class="border border-gray-400 px-2 py-1">{{ w.word }}</td>
-            <td class="border border-gray-400 px-2 py-1">{{ w.attempts }}</td>
+            <td class="border border-gray-400 px-2 py-1">{{ w.shown }}</td>
             <td class="border border-gray-400 px-2 py-1">{{ w.correct }}</td>
           </tr>
         </tbody>

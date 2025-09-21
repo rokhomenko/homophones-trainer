@@ -9,7 +9,7 @@ export interface TrainingState {
 }
 
 export interface WordStat {
-  attempts: number
+  shown: number
   correct: number
 }
 
