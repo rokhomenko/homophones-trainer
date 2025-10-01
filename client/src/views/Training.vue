@@ -52,9 +52,16 @@
     selectedWordId.value = wordId
     showAnswer.value = true
 
+    console.log('isCurrentGroupHomophones', isCurrentGroupHomophones.value)
+
     const isCorrect = wordId === trainingStore.currentWord?.word.id
     trainingStore.registerAnswer(wordId, isCorrect)
   }
+
+  const isCurrentGroupHomophones = computed(() => {
+    const isGroupHomophones = trainingStore?.currentWord?.group.homophones
+    return isGroupHomophones
+  })
 
   const showResults = computed(() => {
     return trainingStore.trainingGroups.map(group => {
@@ -101,6 +108,7 @@
           {{ w.word }}
         </li>
       </ul>
+      <button>All words sound the same</button>
     </div>
   </div>
   <div v-else>
