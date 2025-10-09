@@ -13,6 +13,7 @@
   const trainingStore = useTrainingStore()
 
   let showAnswer = ref(false)
+  let answeredCurrentWord = ref(false)
   const selectedWordId = ref<number | null>(null)
 
   onMounted(async () => {
@@ -29,6 +30,7 @@
     () => trainingStore.currentWord,
     (newWord) => {
       showAnswer.value = false
+      answeredCurrentWord.value = false
       selectedWordId.value = null
       if (newWord) speak(newWord.word.word),
       trainingStore.countShown()
@@ -50,12 +52,32 @@
 
   function selectWord(wordId: number) {
     selectedWordId.value = wordId
-    showAnswer.value = true
+    //showAnswer.value = true
+    answeredCurrentWord.value = true
 
-    console.log('isCurrentGroupHomophones', isCurrentGroupHomophones.value)
+    if (isCurrentGroupHomophones.value) {
+      trainingStore.registerAnswer(wordId, false)
+      showAnswer.value = false
+    } else {
+      showAnswer.value = true
+      const isCorrect = wordId === trainingStore.currentWord?.word.id
+      trainingStore.registerAnswer(wordId, isCorrect)
+    }
+  }
 
-    const isCorrect = wordId === trainingStore.currentWord?.word.id
-    trainingStore.registerAnswer(wordId, isCorrect)
+  function selectAllWords() {
+    answeredCurrentWord.value = true
+    const currentWordId = trainingStore.currentWord?.word.id
+    if (currentWordId == undefined) return
+
+    if (isCurrentGroupHomophones.value) {
+      trainingStore.registerAnswer(currentWordId, true)
+      showAnswer.value = false
+    } else {
+      trainingStore.registerAnswer(currentWordId, true)
+      showAnswer.value = true
+      selectedWordId.value = currentWordId
+    }
   }
 
   const isCurrentGroupHomophones = computed(() => {
@@ -83,7 +105,7 @@
 
 <template>
   <div class="flex flex-col" v-if="!trainingStore.finished">
-    <button class="mb-8" @click="nextWord()" :disabled="selectedWordId === null">
+    <button class="mb-8" @click="nextWord()" :disabled="!answeredCurrentWord">
       {{ hasNextWord ? 'Next' : 'Finish' }}
     </button>
     <div v-if="showAnswer">
@@ -101,14 +123,14 @@
           :key="w.id"
           @click="selectWord(w.id)"
           :class="{
-            'text-green-600 font-bold' : selectedWordId === w.id && w.id === trainingStore.currentWord?.word.id,
-            'text-red-600 font-bold' : selectedWordId === w.id && w.id !== trainingStore.currentWord?.word.id
+            'text-green-600 font-bold' : !isCurrentGroupHomophones && selectedWordId === w.id && w.id === trainingStore.currentWord?.word.id,
+            'text-red-600 font-bold' : answeredCurrentWord && (isCurrentGroupHomophones || (selectedWordId === w.id && w.id !== trainingStore.currentWord?.word.id))
           }"
         >
           {{ w.word }}
         </li>
       </ul>
-      <button>All words sound the same</button>
+      <button @click="selectAllWords">All words sound the same</button>
     </div>
   </div>
   <div v-else>

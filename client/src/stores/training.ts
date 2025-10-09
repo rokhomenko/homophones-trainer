@@ -63,6 +63,10 @@ export const useTrainingStore = defineStore('training', {
 
       const stats = currentItem.group.wordStats[wordId]
       if (!stats) return
+
+      if(isCorrect) {
+        return stats.correct++
+      }
     },
 
     countShown() {
@@ -70,9 +74,7 @@ export const useTrainingStore = defineStore('training', {
       if (!currentWord) return
 
       const stats = currentWord.group.wordStats[currentWord.word.id]
-      if (stats) {
-        return stats.shown++
-      }
+      stats.shown++
     }
   }
 })
