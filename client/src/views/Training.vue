@@ -130,7 +130,12 @@
           {{ w.word }}
         </li>
       </ul>
-      <button @click="selectAllWords">All words sound the same</button>
+      <button @click="selectAllWords"
+              :class="{
+                'text-green-600 font-bold': answeredCurrentWord && isCurrentGroupHomophones
+              }">
+                All words sound the same
+      </button>
     </div>
   </div>
   <div v-else>
