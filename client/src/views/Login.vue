@@ -12,7 +12,7 @@ const password = ref('')
 const onLogin = async () => {
   await auth.login(email.value, password.value)
   if (auth.user) {
-    router.push('/profile')
+    router.push('/')
   }
 }
 </script>

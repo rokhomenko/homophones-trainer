@@ -12,7 +12,7 @@
   const onRegister = async () => {
     await auth.register(email.value, password.value)
     if (auth.user) {
-      router.push('/profile')
+      router.push('/')
     }
   }
 </script>
