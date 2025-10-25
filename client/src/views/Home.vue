@@ -15,7 +15,6 @@ onMounted(async () => {
  await Promise.all([
   groupsStore.fetchGroups(),
   wordsStore.fetchWords(),
-  learnedStore.fetchLearned()
  ])
 })
 
