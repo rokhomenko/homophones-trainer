@@ -145,15 +145,13 @@
         <thead>
           <tr>
             <th class="border border-gray-400 px-2 py-1">Word</th>
-            <th class="border border-gray-400 px-2 py-1">Attempts</th>
             <th class="border border-gray-400 px-2 py-1">Correct</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="w in group.words" :key="w.id">
             <td class="border border-gray-400 px-2 py-1">{{ w.word }}</td>
-            <td class="border border-gray-400 px-2 py-1">{{ w.shown }}</td>
-            <td class="border border-gray-400 px-2 py-1">{{ w.correct }}</td>
+            <td class="border border-gray-400 px-2 py-1">{{ w.correct }} of {{ w.shown }}</td>
           </tr>
         </tbody>
       </table>
