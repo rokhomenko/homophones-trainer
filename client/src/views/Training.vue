@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import { computed, onMounted, watch, ref } from 'vue'
+  import { useRouter } from 'vue-router'
   import { useWordsStore } from '@/stores/words'
   import { useGroupsStore } from '@/stores/groups'
   import { useLearnedStore } from '@/stores/learned'
@@ -11,6 +12,7 @@
   const groupsStore = useGroupsStore()
   const learnedStore = useLearnedStore()
   const trainingStore = useTrainingStore()
+  const router = useRouter()
 
   let showAnswer = ref(false)
   let answeredCurrentWord = ref(false)
@@ -47,6 +49,7 @@
       trainingStore.currentWordIndex++
     } else {
       trainingStore.finished = true
+      router.push('/training-results')
     }
   }
 
@@ -85,7 +88,7 @@
     return isGroupHomophones
   })
 
-  const showResults = computed(() => {
+  /* const showResults = computed(() => {
     return trainingStore.trainingGroups.map(group => {
       return {
         groupId: group.id,
@@ -100,7 +103,7 @@
         })
       }
     })
-  })
+  }) */
 </script>
 
 <template>
@@ -138,7 +141,7 @@
       </button>
     </div>
   </div>
-  <div v-else>
+  <!-- <div v-else>
     <div>Training is finished</div>
     <div v-for="group in showResults" :key="group.groupId">
       <table>
@@ -156,5 +159,5 @@
         </tbody>
       </table>
     </div>
-  </div>
+  </div> -->
 </template>
