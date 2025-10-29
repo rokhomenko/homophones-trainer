@@ -22,14 +22,11 @@
       }
     })
   })
-  function startNewTraining() {
-    trainingStore.initTraining()
-    router.push('/training')
-  }
+
+  function setLearned() {}
 </script>
 
 <template>
-  <div>Training is finished</div>
   <div v-for="group in showResults" :key="group.groupId">
     <table>
       <thead>
@@ -46,5 +43,4 @@
       </tbody>
     </table>
   </div>
-  <button @click="startNewTraining">Start new training</button>
 </template>

@@ -10,8 +10,7 @@ const router = createRouter({
     children: [
       { path: '', name: 'home', component: () => import('@/views/Home.vue') },
       { path: 'profile', name: 'profile', component: () => import('@/views/Profile.vue'), meta: { requiresAuth: true } },
-      { path: 'training', name: 'training', component: () => import('@/views/Training.vue'), meta: { requiresAuth: true } },
-      { path: 'training-results', name: 'training-results', component: () => import('@/views/TrainingResult.vue'), meta: {requiresAuth: true } }
+      { path: 'training', name: 'training', component: () => import('@/views/Training.vue'), meta: { requiresAuth: true } }
     ]
     },
     {
