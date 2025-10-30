@@ -2,9 +2,11 @@
   import { computed } from 'vue'
   import { useRouter } from 'vue-router';
   import { useTrainingStore } from '@/stores/training';
+  import { useAuthStore } from '@/stores/auth';
 
   const router = useRouter()
   const trainingStore = useTrainingStore()
+  const authStore = useAuthStore()
 
   const showResults = computed(() => {
     return trainingStore.trainingGroups.map(group => {
@@ -23,7 +25,21 @@
     })
   })
 
-  function setLearned() {}
+  function setLearned() {
+    if (authStore.user && authStore.user.id !== null) {
+      console.log('user', authStore.user.id)
+    }
+  }
+
+  function findSuccessfulGroups() {
+    const successfulGroups = showResults.value
+      .filter(group =>
+        group.words.every(w => w.correct === 3)
+      )
+      .map(group => group.groupId)
+      console.log('success grs', successfulGroups)
+      return successfulGroups
+  }
 </script>
 
 <template>
@@ -43,4 +59,6 @@
       </tbody>
     </table>
   </div>
+  <div @click="setLearned">setLearned</div>
+  <div @click="findSuccessfulGroups">successfulGroups</div>
 </template>
