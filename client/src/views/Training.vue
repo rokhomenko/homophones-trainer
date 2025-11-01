@@ -15,6 +15,7 @@
   let showAnswer = ref(false)
   let answeredCurrentWord = ref(false)
   const selectedWordId = ref<number | null>(null)
+  const allWordsSelected = ref(false)
 
   onMounted(async () => {
     await Promise.all([
@@ -54,6 +55,7 @@
     selectedWordId.value = wordId
     //showAnswer.value = true
     answeredCurrentWord.value = true
+    allWordsSelected.value = false
 
     if (isCurrentGroupHomophones.value) {
       trainingStore.registerAnswer(wordId, false)
@@ -67,6 +69,7 @@
 
   function selectAllWords() {
     answeredCurrentWord.value = true
+    allWordsSelected.value = true
     const currentWordId = trainingStore.currentWord?.word.id
     if (currentWordId == undefined) return
 
@@ -111,7 +114,7 @@
           @click="selectWord(w.id)"
           :class="{
             'text-green-600 font-bold' : !isCurrentGroupHomophones && selectedWordId === w.id && w.id === trainingStore.currentWord?.word.id,
-            'text-red-600 font-bold' : answeredCurrentWord && (isCurrentGroupHomophones || (selectedWordId === w.id && w.id !== trainingStore.currentWord?.word.id))
+            'text-red-600 font-bold' : answeredCurrentWord && !allWordsSelected && (isCurrentGroupHomophones || (selectedWordId === w.id && w.id !== trainingStore.currentWord?.word.id))
           }"
         >
           {{ w.word }}
