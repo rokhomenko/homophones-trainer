@@ -26,3 +26,15 @@ export interface TrainingQueueItem {
   word: Word
   group: TrainingGroup
 }
+
+export interface WordResult {
+  id: number,
+  word: string,
+  shown: number,
+  correct: number
+}
+
+export interface GroupResult {
+  groupId: number,
+  words: WordResult[]
+}
