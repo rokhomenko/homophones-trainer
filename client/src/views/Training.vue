@@ -74,7 +74,7 @@
       trainingStore.registerAnswer(currentWordId, true)
       showAnswer.value = false
     } else {
-      trainingStore.registerAnswer(currentWordId, true)
+      trainingStore.registerAnswer(currentWordId, false)
       showAnswer.value = true
       selectedWordId.value = currentWordId
     }
