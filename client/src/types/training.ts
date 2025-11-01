@@ -28,13 +28,18 @@ export interface TrainingQueueItem {
 }
 
 export interface WordResult {
-  id: number,
-  word: string,
-  shown: number,
+  id: number
+  word: string
+  shown: number
   correct: number
 }
 
 export interface GroupResult {
-  groupId: number,
+  groupId: number
   words: WordResult[]
+}
+
+export interface LearnedDuringTraining {
+  userId: number
+  groups: number[]
 }
