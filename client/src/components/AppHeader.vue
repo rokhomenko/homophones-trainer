@@ -12,7 +12,7 @@
 
 <template>
   <div class="flex flex-row justify-between bg-gradient-to-r from-emerald-400 to-cyan-400">
-    <div class="text-white hover:text-blue-50 text-2xl m-5 font-extrabold cursor-pointer">Homophones Trainer</div>
+    <router-link to="/#"><div class="text-white hover:text-blue-50 text-2xl m-5 font-extrabold cursor-pointer">Homophones Trainer</div></router-link>
     <div class="flex items-center font-light gap-5 mr-7">
       <template v-if="!auth.isAuthenticated">
         <div class="flex text-white hover:text-blue-100 cursor-pointer">
