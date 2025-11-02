@@ -83,6 +83,13 @@
     }
   }
 
+  const allWordsButtonClass = computed(() => {
+    if (!answeredCurrentWord.value) return ''
+    if (isCurrentGroupHomophones.value) return 'text-green-600 font-bold'
+    if (allWordsSelected.value && !isCurrentGroupHomophones.value) return 'text-red-600 font-bold'
+    return ''
+  })
+
   const isCurrentGroupHomophones = computed(() => {
     const isGroupHomophones = trainingStore?.currentWord?.group.homophones
     return isGroupHomophones
@@ -121,9 +128,7 @@
         </li>
       </ul>
       <button @click="selectAllWords"
-              :class="{
-                'text-green-600 font-bold': answeredCurrentWord && isCurrentGroupHomophones
-              }">
+              :class="allWordsButtonClass">
                 All words sound the same
       </button>
     </div>
