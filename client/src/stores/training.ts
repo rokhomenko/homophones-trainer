@@ -1,8 +1,10 @@
 import { defineStore } from "pinia"
+import axios from 'axios'
 import type { Word } from '@/types/words'
-import type { WordStats, WordStat, TrainingState, TrainingGroup, TrainingQueueItem } from "@/types/training"
+import type { WordStats, WordStat, TrainingState, TrainingGroup, TrainingQueueItem, GroupResult, LearnedDuringTraining } from "@/types/training"
 import type { GroupWithWords } from '@/types/derived'
 import { useLearnedStore } from "./learned"
+import { useAuthStore } from './auth'
 
 
 export const useTrainingStore = defineStore('training', {
@@ -17,6 +19,21 @@ export const useTrainingStore = defineStore('training', {
   getters: {
     currentWord(state): TrainingQueueItem | null {
       return state.trainingQueue[state.currentWordIndex] ?? null
+    },
+    
+    showResults(state): GroupResult[] {
+      return state.trainingGroups.map(group => ({
+        groupId: group.id,
+        words: group.words.map(w => {
+          const stat = group.wordStats[w.id]
+          return {
+            id: w.id,
+            word: w.word,
+            shown: stat?.shown ?? 0,
+            correct: stat?.correct ?? 0
+          }
+        })
+      }))
     }
   },
 
@@ -75,6 +92,38 @@ export const useTrainingStore = defineStore('training', {
 
       const stats = currentWord.group.wordStats[currentWord.word.id]
       stats.shown++
+    },
+
+    async updateLearned(groupIds: number[]) {
+      const authStore = useAuthStore()
+      const userId = authStore.user?.id
+      if (!userId) return console.warn('No user ID found')
+
+      try {
+        const requests = groupIds.map(groupId =>
+          axios.post<LearnedDuringTraining>(`https://x8ki-letl-twmt.n7.xano.io/api:PKgvb2gt/learned_groups`, {
+            user_id: userId,
+            group_id: groupId
+          })
+        )
+        const responses = await Promise.allSettled(requests)
+        console.log('responses', responses)
+        return responses
+      } catch (error) {
+        console.error('Error updating learned groups:', error)
+        throw error
+      }
+    },
+
+    async setLearned() {
+      const successfulGroups = this.showResults
+        .filter(group =>
+          group.words.every(w => w.correct >= 3)
+        )
+        .map(group => group.groupId)
+        
+      if (!successfulGroups.length) return console.log('No successful groups')
+      return await this.updateLearned(successfulGroups)
     }
   }
 })

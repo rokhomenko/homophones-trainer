@@ -1,35 +1,14 @@
 <script setup lang="ts">
-  import { computed } from 'vue'
   import { useRouter } from 'vue-router'
   import { useTrainingStore } from '@/stores/training'
-  import { useAuthStore } from '@/stores/auth'
   import TrainingResult from './TrainingResult.vue'
-  import type { GroupResult } from '@/types/training'
 
   const router = useRouter()
   const trainingStore = useTrainingStore()
-  const authStore = useAuthStore()
-
-  const showResults = computed<GroupResult[]>(() => {
-    return trainingStore.trainingGroups.map(group => {
-      return {
-        groupId: group.id,
-        words: group.words.map(w => {
-          const stat = group.wordStats[w.id]
-          return {
-            id: w.id,
-            word: w.word,
-            shown: stat?.shown ?? 0,
-            correct: stat?.correct ?? 0
-          }
-        })
-      }
-    })
-  })
 </script>
 
 <template>
-  <div v-for="group in showResults" :key="group.groupId">
+  <div v-for="group in trainingStore.showResults" :key="group.groupId">
     <table>
       <thead>
         <tr>
@@ -45,5 +24,5 @@
       </tbody>
     </table>
   </div>
-  <TrainingResult :showResults="showResults" />
+  <TrainingResult />
 </template>
