@@ -43,10 +43,11 @@
     trainingStore.currentWordIndex < trainingStore.trainingQueue.length - 1
   )
 
-  function nextWord() {
+  async function nextWord() {
     if(hasNextWord.value) {
       trainingStore.currentWordIndex++
     } else {
+      await trainingStore.setLearned()
       trainingStore.finished = true
     }
   }
