@@ -53,8 +53,9 @@
   }
 
   function selectWord(wordId: number) {
+    if (answeredCurrentWord.value) return
+
     selectedWordId.value = wordId
-    //showAnswer.value = true
     answeredCurrentWord.value = true
     allWordsSelected.value = false
 
@@ -69,6 +70,8 @@
   }
 
   function selectAllWords() {
+    if (answeredCurrentWord.value) return
+
     answeredCurrentWord.value = true
     allWordsSelected.value = true
     const currentWordId = trainingStore.currentWord?.word.id
