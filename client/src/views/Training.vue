@@ -137,7 +137,7 @@
         All words sound the same
       </button>
     </div>
-    <button class="mb-8 mt-20 cursor-pointer text-cyan-800" @click="nextWord()" :disabled="!answeredCurrentWord">
+    <button class="mb-8 mt-20 cursor-pointer text-slate-600" @click="nextWord()" :disabled="!answeredCurrentWord">
       {{ hasNextWord ? 'Next' : 'Finish' }}
     </button>
   </div>
