@@ -122,7 +122,7 @@
           @click="selectWord(w.id)"
           class="flex gap-2 px-3 py-2 bg-cyan-600 text-white font-bold rounded-lg cursor-pointer w-fit transition-colors"
           :class="{
-            'bg-emerald-500' : !isCurrentGroupHomophones && selectedWordId === w.id && w.id === trainingStore.currentWord?.word.id,
+            'bg-emerald-500' : answeredCurrentWord && !isCurrentGroupHomophones && w.id === trainingStore.currentWord?.word.id,
             'bg-rose-600' : answeredCurrentWord && !allWordsSelected && (isCurrentGroupHomophones || (selectedWordId === w.id && w.id !== trainingStore.currentWord?.word.id))
           }"
         >
