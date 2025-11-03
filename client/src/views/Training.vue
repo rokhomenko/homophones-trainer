@@ -105,6 +105,11 @@
 </script>
 
 <template>
+  <div class="flex justify-center" v-if="trainingStore.finished">
+    <button class="bg-gradient-to-r from-amber-500 to-yellow-500 text-white text-lg sm:text-xl md:text-2xl lg:text-3xl rounded-2xl py-3 sm:py-4 md:py-5 px-8 sm:px-12 md:px-20 lg:px-35 max-w-[calc(100%-30px)] text-center my-20" @click="startNewTraining">
+      Start New Training
+    </button>
+  </div>
   <div class="flex flex-col items-center" v-if="!trainingStore.finished">
     <!-- <div v-if="showAnswer">
       {{ trainingStore.currentWord?.word.word }}
@@ -142,7 +147,4 @@
     </button>
   </div>
   <TrainingProgress />
-  <div v-if="!hasNextWord">
-    <button @click="startNewTraining">Start New Training</button>
-  </div>
 </template>
