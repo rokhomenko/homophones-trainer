@@ -48,6 +48,7 @@
     <div class="flex flex-col w-full" v-for="(g, groupIndex) in trainingStore.showResults" :key="g.groupId">
     <div v-for="(w, wordIndex) in g.words" :key="w.id">
       <div
+        v-if="calculateRowWidth[groupIndex][wordIndex] > 0"
         class="bg-gradient-to-r from-emerald-100 to-cyan-100 mb-3 text-white font-bold rounded-md px-2"
         :style="{ width: calculateRowWidth[groupIndex][wordIndex] + '%' }"
       >
