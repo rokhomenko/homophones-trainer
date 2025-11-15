@@ -1,21 +1,6 @@
-import { defineStore } from "pinia"
+import { defineStore } from 'pinia'
 import axios from 'axios'
-
-interface User {
-  id: number
-  email: string
-}
-
-interface LoginResponse {
-  authToken: string
-}
-
-interface AuthState {
-  user: User | null
-  token: string | null
-  loading: boolean
-  error: string | null
-}
+import type { AuthState, LoginResponse, User } from '@/types/auth'
 
 export const useAuthStore = defineStore('auth', {
   state: (): AuthState => ({
@@ -24,6 +9,10 @@ export const useAuthStore = defineStore('auth', {
     loading: false,
     error: null
   }),
+
+  getters: {
+    isAuthenticated: (state) => !!state.token && !!state.user
+  },
 
   actions: {
     async register(email: string, password: string) {

@@ -12,7 +12,7 @@
   const onRegister = async () => {
     await auth.register(email.value, password.value)
     if (auth.user) {
-      router.push('/profile')
+      router.push('/')
     }
   }
 </script>
@@ -20,7 +20,7 @@
 <template>
   <div>Register</div>
   <input v-model="email" placeholder="Email"></input>
-  <input v-model="password" placeholder="Password"></input>
+  <input type="password" v-model="password" placeholder="Password"></input>
   <button @click="onRegister" :disabled="auth.loading">
     {{ auth.loading ? 'Loading' : 'Register' }}
   </button>
