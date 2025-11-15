@@ -33,10 +33,12 @@
       showAnswer.value = false
       answeredCurrentWord.value = false
       selectedWordId.value = null
-      if (newWord) speak(newWord.word.word),
-      trainingStore.countShown()
-      { immediate: true}
-    }
+      if (newWord) {
+        speak(newWord.word.word)
+        trainingStore.countShown()
+      }
+    },
+    { immediate: true }
   )
 
   const hasNextWord = computed(() =>
