@@ -18,9 +18,9 @@ const onLogin = async () => {
 </script>
 
 <template>
-  <div>Login</div>
-  <input v-model="email" placeholder="Email"></input>
-  <input type="password" v-model="password" placeholder="Password"></input>
+  <div class="text-slate-500">Login</div>
+  <input v-model="email" class="border border-emerald-200 rounded-md px-3 py-2 focus:border-cyan-400 focus:outline-none" placeholder="Email"></input>
+  <input type="password" class="border border-emerald-200 rounded-md px-3 py-2 focus:border-cyan-400 focus:outline-none" v-model="password" placeholder="Password"></input>
   <button @click="onLogin" :disabled="auth.loading">
     {{ auth.loading ? 'Loading' : 'Submit' }}
   </button>
