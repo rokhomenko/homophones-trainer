@@ -18,7 +18,7 @@
 </script>
 
 <template>
-  <div class="flex text-slate-500 font-bold text-2xl mb-10rem">Homophones Trainer</div>
+  <div class="flex text-slate-500 font-bold text-2xl lg:mb-[1rem]">Homophones Trainer</div>
   <div class="text-slate-500">Register</div>
   <input v-model="email" class="border border-emerald-200 rounded-md px-3 py-2 focus:border-cyan-400 focus:outline-none" placeholder="Email"></input>
   <input type="password" class="border border-emerald-200 rounded-md px-3 py-2 focus:border-cyan-400 focus:outline-none" v-model="password" placeholder="Password"></input>
