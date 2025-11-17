@@ -14,8 +14,8 @@
   <div class="flex flex-row justify-between bg-gradient-to-r from-emerald-400 to-cyan-400">
     <router-link to="/#">
       <div class="flex flex-row">
-        <div>
-          <img src="../../public/logo.png" width="40px" />
+        <div class="mx-1 md:mx-3">
+          <img src="../../public/logo-grey.png" width="40px" />
         </div>
         <div class="text-white hover:text-blue-50 text-2xl my-5 font-extrabold cursor-pointer">Homophones Trainer</div>
       </div>
