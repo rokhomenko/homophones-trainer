@@ -18,7 +18,7 @@ const onLogin = async () => {
 </script>
 
 <template>
-  <div class="flex text-slate-500 font-bold text-2xl mb-10rem">Homophones Trainer</div>
+  <div class="flex text-slate-500 font-bold text-2xl lg:mb-[1rem]">Homophones Trainer</div>
   <div class="text-slate-500">Login or
     <a class="text-cyan-600">
       <router-link to="/auth/register" @click="auth.error = null">Register</router-link>
