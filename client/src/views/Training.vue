@@ -24,6 +24,10 @@
       learnedStore.fetchLearned()
     ])
 
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel()
+    }
+
     trainingStore.initTraining()
   })
 
