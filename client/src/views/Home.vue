@@ -4,13 +4,14 @@ import { useWordsStore } from '@/stores/words'
 import { useGroupsStore } from '@/stores/groups'
 import { useDictionaryStore } from '@/stores/dictionary'
 import { useLearnedStore } from '@/stores/learned'
-import { useSpeech } from '@/composables/useSpeech'
+import { speak } from '@/utils/speak'
+//import { useSpeech } from '@/composables/useSpeech'
 
 const wordsStore = useWordsStore()
 const groupsStore = useGroupsStore()
 const dictionaryStore = useDictionaryStore()
 const learnedStore = useLearnedStore()
-const { isSpeaking, speak} = useSpeech()
+//const { isSpeaking, speak} = useSpeech()
 
 onMounted(async () => {
  await Promise.all([
@@ -43,7 +44,6 @@ const learned = computed(() => learnedStore.learned_groups)
             <li
               v-for="word in group.words"
               :key="word.id"
-              :disabled="isSpeaking"
               @click="speak(word.word)"
               class="flex my-3 gap-2 px-3 py-2 border border-cyan-800 rounded-lg cursor-pointer"
             >
@@ -66,7 +66,6 @@ const learned = computed(() => learnedStore.learned_groups)
             <li
               v-for="word in group.words"
               :key="word.id"
-              :disabled="isSpeaking"
               @click="speak(word.word)"
               class="flex my-3 gap-2 px-3 py-2 border border-cyan-800 rounded-lg cursor-pointer hover:bg-white/10"
             >
