@@ -5,13 +5,11 @@ import { useGroupsStore } from '@/stores/groups'
 import { useDictionaryStore } from '@/stores/dictionary'
 import { useLearnedStore } from '@/stores/learned'
 import { speak } from '@/utils/speak'
-//import { useSpeech } from '@/composables/useSpeech'
 
 const wordsStore = useWordsStore()
 const groupsStore = useGroupsStore()
 const dictionaryStore = useDictionaryStore()
 const learnedStore = useLearnedStore()
-//const { isSpeaking, speak} = useSpeech()
 
 onMounted(async () => {
  await Promise.all([

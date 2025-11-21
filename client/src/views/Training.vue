@@ -6,13 +6,11 @@
   import { useTrainingStore } from '@/stores/training'
   import TrainingProgress from '@/components/training/TrainingProgress.vue'
   import { speak } from '@/utils/speak'
-  //import { useSpeech } from '@/composables/useSpeech'
 
   const wordsStore = useWordsStore()
   const groupsStore = useGroupsStore()
   const learnedStore = useLearnedStore()
   const trainingStore = useTrainingStore()
-  //const { isSpeaking, speak } = useSpeech()
   const isDisabled = ref(false)
 
   let showAnswer = ref(false)
