@@ -20,7 +20,7 @@ export const useTrainingStore = defineStore('training', {
     currentWord(state): TrainingQueueItem | null {
       return state.trainingQueue[state.currentWordIndex] ?? null
     },
-    
+
     showResults(state): GroupResult[] {
       return state.trainingGroups.map(group => ({
         groupId: group.id,
@@ -121,7 +121,7 @@ export const useTrainingStore = defineStore('training', {
           group.words.every(w => w.correct >= 3)
         )
         .map(group => group.groupId)
-        
+
       if (!successfulGroups.length) return console.log('No successful groups')
       return await this.updateLearned(successfulGroups)
     }

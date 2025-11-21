@@ -4,13 +4,14 @@
   import { useGroupsStore } from '@/stores/groups'
   import { useLearnedStore } from '@/stores/learned'
   import { useTrainingStore } from '@/stores/training'
-  import { speak } from '@/utils/speak'
   import TrainingProgress from '@/components/training/TrainingProgress.vue'
+  import { speak } from '@/utils/speak'
 
   const wordsStore = useWordsStore()
   const groupsStore = useGroupsStore()
   const learnedStore = useLearnedStore()
   const trainingStore = useTrainingStore()
+  const isDisabled = ref(false)
 
   let showAnswer = ref(false)
   let answeredCurrentWord = ref(false)
@@ -23,6 +24,10 @@
       wordsStore.fetchWords(),
       learnedStore.fetchLearned()
     ])
+
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel()
+    }
 
     trainingStore.initTraining()
   })
@@ -104,6 +109,14 @@
   function startNewTraining() {
     trainingStore.initTraining()
   }
+
+  async function handleSpeak(word: string) {
+    if (isDisabled.value) return
+
+    isDisabled.value = true
+    await speak(word)
+    isDisabled.value = false
+  }
 </script>
 
 <template>
@@ -119,7 +132,7 @@
       </div> -->
       <div class="text-slate-400 text-sm">Make it louder</div>
       <div class="text-slate-400 text-sm">Tap the speaker to hear again</div>
-      <button v-if="trainingStore.currentWord?.word.word" @click="speak(trainingStore.currentWord?.word.word)" class="my-15">
+      <button v-if="trainingStore.currentWord?.word.word" :disabled="isDisabled" @click="handleSpeak(trainingStore.currentWord?.word.word)" class="my-15">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-10 text-slate-500">
           <path stroke-linecap="round" stroke-linejoin="round" d="M19.114 5.636a9 9 0 0 1 0 12.728M16.463 8.288a5.25 5.25 0 0 1 0 7.424M6.75 8.25l4.72-4.72a.75.75 0 0 1 1.28.53v15.88a.75.75 0 0 1-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.009 9.009 0 0 1 2.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75Z" />
         </svg>
