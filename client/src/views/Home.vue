@@ -1,28 +1,28 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
-import { useWordsStore } from '@/stores/words'
-import { useGroupsStore } from '@/stores/groups'
-import { useDictionaryStore } from '@/stores/dictionary'
-import { useLearnedStore } from '@/stores/learned'
-import { speak } from '@/utils/speak'
+  import { computed, onMounted, ref } from 'vue'
+  import { useWordsStore } from '@/stores/words'
+  import { useGroupsStore } from '@/stores/groups'
+  import { useDictionaryStore } from '@/stores/dictionary'
+  import { useLearnedStore } from '@/stores/learned'
+  import { speak } from '@/utils/speak'
 
-const wordsStore = useWordsStore()
-const groupsStore = useGroupsStore()
-const dictionaryStore = useDictionaryStore()
-const learnedStore = useLearnedStore()
+  const wordsStore = useWordsStore()
+  const groupsStore = useGroupsStore()
+  const dictionaryStore = useDictionaryStore()
+  const learnedStore = useLearnedStore()
 
-onMounted(async () => {
- await Promise.all([
-  groupsStore.fetchGroups(),
-  wordsStore.fetchWords(),
- ])
-})
+  onMounted(async () => {
+  await Promise.all([
+    groupsStore.fetchGroups(),
+    wordsStore.fetchWords(),
+  ])
+  })
 
-const homophonesGroup = computed(() => dictionaryStore.dictionaryWords.homophonesGroup)
-const nonHomophonesGroup = computed(() => dictionaryStore.dictionaryWords.nonHomophonesGroup)
-const isDisabled = ref(false)
+  const homophonesGroup = computed(() => dictionaryStore.dictionaryWords.homophonesGroup)
+  const nonHomophonesGroup = computed(() => dictionaryStore.dictionaryWords.nonHomophonesGroup)
+  const isDisabled = ref(false)
 
-async function handleSpeak(word: string) {
+  async function handleSpeak(word: string) {
     if (isDisabled.value) return
 
     isDisabled.value = true

@@ -1,20 +1,20 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useAuthStore } from '@/stores/auth'
-import { useRouter } from 'vue-router'
+  import { ref } from 'vue'
+  import { useAuthStore } from '@/stores/auth'
+  import { useRouter } from 'vue-router'
 
-const auth = useAuthStore()
-const router = useRouter()
+  const auth = useAuthStore()
+  const router = useRouter()
 
-const email = ref('')
-const password = ref('')
+  const email = ref('')
+  const password = ref('')
 
-const onLogin = async () => {
-  await auth.login(email.value, password.value)
-  if (auth.user) {
-    router.push('/')
+  const onLogin = async () => {
+    await auth.login(email.value, password.value)
+    if (auth.user) {
+      router.push('/')
+    }
   }
-}
 </script>
 
 <template>
