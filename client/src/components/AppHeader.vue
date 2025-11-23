@@ -22,7 +22,7 @@
       <router-link to="/#">
         <div class="flex flex-row items-center">
           <img src="../../public/logo-grey.png" width="40px" class="mr-2 md:mr-3" />
-          <div class="text-white hover:text-blue-50 text-2xl font-extrabold cursor-pointer mt-2">Homophones Trainer</div>
+          <h1 class="text-white hover:text-blue-50 text-2xl font-extrabold cursor-pointer mt-2">Homophones Trainer</h1>
         </div>
       </router-link>
 
