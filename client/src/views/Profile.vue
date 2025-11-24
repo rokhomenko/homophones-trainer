@@ -37,7 +37,7 @@
       <ul
         v-for="group in wordsToLearn"
         :key="group.id"
-        class="flex flex-row gap-x-5 items-center justify-center p-y-2"
+        class="flex flex-row gap-x-5 items-center justify-center p-y-2 flex-wrap"
       >
         <li
           v-for="word in group.words"
