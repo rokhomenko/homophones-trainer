@@ -33,18 +33,21 @@
 
 <template>
   <div class="flex flex-col">
-    <div class="flex flex-col justify-center mt-5 sm:mt-7 md:mt-10 lg:mt-15 mb-7 sm:mb-12 md:mb-15 lg:mb-20">
+    <div class="flex flex-col justify-center items-center mt-1 md:mt-5 lg:mt-7 mb-5 sm:mb-2 md:mb-5 lg:mb-7 text-cyan-800 opacity-80">
       <div>
-        <p>Do you hear the difference between these words? Sometimes yes, sometimes no, and sometimes there's no difference at all — because they genuinely sound the same.</p>
-        <p>This app might not be useful for native speakers or those with an English level of C1 and above. But for anyone who recently wondered how to correctly pronounce "beach" versus... well, you know... this is for you.</p>
-        <h2>What are Homophones?</h2>
-        <p>They are words that truly sound alike, even though they are distinct words (like two, to, and too).</p>
-        <p>I've also included a group of Non-Homophones in the app. These are words that sound different, but it’s not always obvious how to pronounce them correctly.</p>
+        <p class="mb-2">Do you hear the difference between the words below? Sometimes yes, sometimes no, and sometimes there's no difference at all — because they genuinely sound the same.</p>
+        <p class="mb-2">This app might not be useful for native speakers or those with an English level of C1 and above. But for anyone who recently wondered how to correctly pronounce "beach" versus... well, you know... this is for you.</p>
+        <p class="mb-2">
+          <span class="text-md text-lg"><b>What are Homophones?</b></span>
+          They are words that truly sound alike, even though they are distinct words (like two, to, and too).</p>
+        <p class="mb-3">I've also included a group of Non-Homophones in the app. These are words that sound different, but it’s not always obvious how to pronounce them correctly.</p>
       </div>
-      <div class="bg-gradient-to-r from-amber-500 to-yellow-500 text-white text-lg sm:text-xl md:text-2xl lg:text-3xl rounded-2xl py-3 sm:py-4 md:py-5 px-8 sm:px-12 md:px-20 lg:px-35 max-w-[calc(100%-30px)] text-center">
+      <div class="bg-gradient-to-r from-amber-500 to-yellow-500 text-white text-lg sm:text-xl md:text-2xl lg:text-3xl rounded-2xl py-3 sm:py-4 md:py-5 px-8 md:my-5 sm:px-12 md:px-20 lg:px-35 max-w-[calc(100%-30px)] text-center">
         <router-link to="/training" class="inline-block">Go to Training</router-link>
       </div>
-      <p>Create an account to start training and see your progress as you learn new words.</p>
+      <div class="self-start">
+        <p class="my-2 w-full">Create an account to start training and see your progress as you learn new words.</p>
+      </div>
     </div>
     <div class="flex flex-col md:flex-row justify-center gap-10 items-start">
       <section class="flex flex-col w-full md:w-2/3 lg:w-1/2 bg-cyan-50 text-cyan-800 p-y-20 rounded-lg">
