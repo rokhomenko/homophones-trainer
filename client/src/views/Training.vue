@@ -6,6 +6,7 @@
   import { useTrainingStore } from '@/stores/training'
   import TrainingProgress from '@/components/training/TrainingProgress.vue'
   import { speak } from '@/utils/speak'
+  import TrainingResult from '@/components/training/TrainingResult.vue'
 
   const wordsStore = useWordsStore()
   const groupsStore = useGroupsStore()
@@ -121,15 +122,13 @@
 
 <template>
   <div class="flex justify-center" v-if="trainingStore.finished">
+    <TrainingResult />
     <button class="bg-gradient-to-r from-amber-500 to-yellow-500 text-white text-lg sm:text-xl md:text-2xl lg:text-3xl rounded-2xl py-3 sm:py-4 md:py-5 px-8 sm:px-12 md:px-20 lg:px-35 max-w-[calc(100%-30px)] text-center my-20" @click="startNewTraining">
       Start New Training
     </button>
   </div>
   <div class="flex flex-col justify-between">
     <div class="flex flex-col items-center" v-if="!trainingStore.finished">
-      <!-- <div v-if="showAnswer">
-        {{ trainingStore.currentWord?.word.word }}
-      </div> -->
       <div class="text-slate-400 text-sm">Make it louder</div>
       <div class="text-slate-400 text-sm">Tap the speaker to hear again</div>
       <button v-if="trainingStore.currentWord?.word.word" :disabled="isDisabled" @click="handleSpeak(trainingStore.currentWord?.word.word)" class="my-15">

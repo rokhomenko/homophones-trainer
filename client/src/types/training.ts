@@ -6,6 +6,7 @@ export interface TrainingState {
   finished: boolean
   trainingQueue: TrainingQueueItem[]
   currentWordIndex: number
+  successfulGroups: number[]
 }
 
 export interface WordStat {

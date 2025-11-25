@@ -13,7 +13,8 @@ export const useTrainingStore = defineStore('training', {
     trainingGroups: [],
     finished: false,
     trainingQueue: [],
-    currentWordIndex: 0
+    currentWordIndex: 0,
+    successfulGroups: []
   }),
 
   getters: {
@@ -116,14 +117,15 @@ export const useTrainingStore = defineStore('training', {
     },
 
     async setLearned() {
-      const successfulGroups = this.showResults
+      this.successfulGroups = this.showResults
         .filter(group =>
           group.words.every(w => w.correct >= 3)
         )
         .map(group => group.groupId)
+        console.log('setLearned', this.successfulGroups)
 
-      if (!successfulGroups.length) return console.log('No successful groups')
-      return await this.updateLearned(successfulGroups)
+      if (!this.successfulGroups.length) return console.log('No successful groups')
+      return await this.updateLearned(this.successfulGroups)
     }
   }
 })
