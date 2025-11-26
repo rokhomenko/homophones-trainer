@@ -31,7 +31,7 @@
 </script>
 
 <template>
-  <section class="flex justify-center flex-col w-full md:w-2/3 lg:w-1/2 bg-cyan-50 text-cyan-800 p-y-20 rounded-lg mx-auto">
+  <section class="flex justify-center flex-col w-full md:w-2/3 lg:w-1/2 bg-cyan-50 text-cyan-800 rounded-lg mx-auto">
     <h2 class="flex justify-center items-center text-xl w-full h-15 bg-gradient-to-b text-teal-900 from-teal-300 via-teal-400 to-teal-400 rounded-t-lg">Groups you have already learned</h2>
     <div class="flex flex-col mt-7 mb-5">
       <ul
