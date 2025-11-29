@@ -12,14 +12,10 @@
   const isDisabled = ref(false)
 
   onMounted(async () => {
-    await Promise.all([
-      groupsStore.fetchGroups(),
-      wordsStore.fetchWords(),
-      learnedStore.fetchLearned()
-    ])
+    await learnedStore.fetchLearned()
   })
 
-  const wordsToLearn = computed<GroupWithWords[]>(() => learnedStore.separateLearningGroups.wordsToLearn)
+  const learnedWords = computed<GroupWithWords[]>(() => learnedStore.separateLearningGroups.learnedWords)
 
   async function handleSpeak(word: string) {
   if (isDisabled.value) return
@@ -33,9 +29,10 @@
 <template>
   <section class="flex justify-center flex-col w-full md:w-2/3 lg:w-1/2 bg-cyan-50 text-cyan-800 rounded-lg mx-auto">
     <h2 class="flex justify-center items-center text-xl w-full h-15 bg-gradient-to-b text-teal-900 from-teal-300 via-teal-400 to-teal-400 rounded-t-lg">Groups you have already learned</h2>
-    <div class="flex flex-col mt-7 mb-5">
+    <div v-if="learnedStore.loading" class="text-center p-5">Loading…</div>
+    <div v-else class="flex flex-col mt-7 mb-5">
       <ul
-        v-for="group in wordsToLearn"
+        v-for="group in learnedWords"
         :key="group.id"
         class="flex flex-row gap-x-5 items-center justify-center p-y-2 flex-wrap"
       >
