@@ -1,0 +1,82 @@
+# ====================
+# Node modules
+# ====================
+**/node_modules/
+
+# ====================
+# Build / Output
+# ====================
+**/dist/
+**/dist-ssr/
+**/build/
+**/.vite/
+**/.nyc_output/
+**/coverage/
+
+# ====================
+# Logs
+# ====================
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ====================
+# OS files
+# ====================
+.DS_Store
+Thumbs.db
+
+# ====================
+# Editor directories and files
+# ====================
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+.idea/
+.project
+.classpath
+*.launch
+.settings/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.sublime-workspace
+
+# ====================
+# Typescript / Node
+# ====================
+*.tsbuildinfo
+
+# ====================
+# Environment files
+# ====================
+**/.env
+**/.env.*.local
+
+# ====================
+# Cypress
+# ====================
+/cypress/videos/
+/cypress/screenshots/
+
+# ====================
+# Temporary / runtime
+# ====================
+.temp/
+.tmp/
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# ====================
+# Prisma generated
+# ====================
+/generated/prisma/
