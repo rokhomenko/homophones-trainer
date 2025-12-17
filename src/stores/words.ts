@@ -14,14 +14,13 @@ export const useWordsStore = defineStore('words', {
       this.loading = true
       this.error = null
       try {
-        const res = await axios.get<Word[]>('https://x8ki-letl-twmt.n7.xano.io/api:PKgvb2gt/words')
+        const res = await axios.get<Word[]>('http://localhost:3000/words')
         this.words = res.data
       } catch (err: any) {
         this.error = err.message || 'Error loading words'
       } finally {
         this.loading = false
       }
-    }
-  }
+    },
+  },
 })
-
