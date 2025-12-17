@@ -1,8 +1,11 @@
+import type { Word } from './words'
+
 export interface Group {
   id: number
   created_at: number
   homophones: boolean
   additional_to_id: number
+  words?: Word[]
 }
 
 export interface GroupsState {
@@ -10,4 +13,3 @@ export interface GroupsState {
   loading: boolean
   error: string | null
 }
-
