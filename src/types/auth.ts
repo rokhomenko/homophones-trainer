@@ -6,6 +6,8 @@ export interface User {
 
 export interface LoginResponse {
   authToken: string
+  userId: number
+  email: string
 }
 
 export interface AuthState {
