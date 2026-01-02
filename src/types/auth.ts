@@ -5,7 +5,7 @@ export interface User {
 }
 
 export interface LoginResponse {
-  authToken: string
+  accessToken: string
   userId: number
   email: string
 }

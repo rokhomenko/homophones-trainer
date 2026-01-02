@@ -7,11 +7,11 @@ export const useAuthStore = defineStore('auth', {
     user: null,
     token: localStorage.getItem('token'),
     loading: false,
-    error: null
+    error: null,
   }),
 
   getters: {
-    isAuthenticated: (state) => !!state.token && !!state.user
+    isAuthenticated: (state) => !!state.token && !!state.user,
   },
 
   actions: {
@@ -19,10 +19,8 @@ export const useAuthStore = defineStore('auth', {
       this.loading = true
       this.error = null
       try {
-        const res = await axios.post<LoginResponse>(`https://x8ki-letl-twmt.n7.xano.io/api:U6KB-8Fp/auth/signup`, {email, password})
-        this.token = res.data.authToken
-        localStorage.setItem('token', this.token)
-        await this.getUser()
+        await axios.post(`http://localhost:3000/auth/register`, { email, password })
+        await this.login(email, password)
       } catch (err: any) {
         this.error = err.response?.data?.message || err.message
       } finally {
@@ -30,14 +28,20 @@ export const useAuthStore = defineStore('auth', {
       }
     },
 
-    async login (email: string, password: string) {
+    async login(email: string, password: string) {
       this.loading = true
       this.error = null
       try {
-        const res = await axios.post<LoginResponse>(`https://x8ki-letl-twmt.n7.xano.io/api:U6KB-8Fp/auth/login`, {email, password})
-        this.token = res.data.authToken
+        const res = await axios.post<LoginResponse>(`http://localhost:3000/auth/login`, {
+          email,
+          password,
+        })
+        this.token = res.data.accessToken
         localStorage.setItem('token', this.token)
-        await this.getUser()
+        this.user = {
+          userId: res.data.userId,
+          email: res.data.email,
+        } as any
       } catch (err: any) {
         this.error = err.response?.data?.message || err.message
       } finally {
@@ -45,11 +49,11 @@ export const useAuthStore = defineStore('auth', {
       }
     },
 
-    async getUser () {
+    async getUser() {
       if (!this.token) return
       try {
-        const res = await axios.get<User>(`https://x8ki-letl-twmt.n7.xano.io/api:U6KB-8Fp/auth/me`, {
-          headers: { Authorization: `Bearer ${this.token}` }
+        const res = await axios.get<User>(`http://localhost:3000/auth/me`, {
+          headers: { Authorization: `Bearer ${this.token}` },
         })
         this.user = res.data
       } catch {
@@ -57,10 +61,10 @@ export const useAuthStore = defineStore('auth', {
       }
     },
 
-    logout () {
+    logout() {
       this.user = null
       this.token = null
       localStorage.removeItem('token')
-    }
-  }
+    },
+  },
 })
