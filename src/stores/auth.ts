@@ -56,8 +56,10 @@ export const useAuthStore = defineStore('auth', {
           headers: { Authorization: `Bearer ${this.token}` },
         })
         this.user = res.data
-      } catch {
-        this.logout()
+      } catch (err: any) {
+        if (err.response?.status === 401) {
+          this.logout()
+        }
       }
     },
 
