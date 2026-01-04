@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
+import { AxiosError } from 'axios'
 import type { AuthState, LoginResponse, User } from '@/types/auth'
+import type { ApiError } from '@/types/api'
 
 export const useAuthStore = defineStore('auth', {
   state: (): AuthState => ({
@@ -21,8 +23,9 @@ export const useAuthStore = defineStore('auth', {
       try {
         await axios.post(`http://localhost:3000/auth/register`, { email, password })
         await this.login(email, password)
-      } catch (err: any) {
-        this.error = err.response?.data?.message || err.message
+      } catch (err) {
+        const error = err as AxiosError<ApiError>
+        this.error = error.response?.data?.message || error.message
       } finally {
         this.loading = false
       }
@@ -41,9 +44,10 @@ export const useAuthStore = defineStore('auth', {
         this.user = {
           userId: res.data.userId,
           email: res.data.email,
-        } as any
-      } catch (err: any) {
-        this.error = err.response?.data?.message || err.message
+        } as User
+      } catch (err) {
+        const error = err as AxiosError<ApiError>
+        this.error = error.response?.data?.message || error.message
       } finally {
         this.loading = false
       }
@@ -56,8 +60,9 @@ export const useAuthStore = defineStore('auth', {
           headers: { Authorization: `Bearer ${this.token}` },
         })
         this.user = res.data
-      } catch (err: any) {
-        if (err.response?.status === 401) {
+      } catch (err) {
+        const error = err as AxiosError<ApiError>
+        if (error.response?.status === 401) {
           this.logout()
         }
       }

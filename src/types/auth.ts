@@ -1,7 +1,7 @@
 export interface User {
   userId: number
   email: string
-  createdAt: string
+  createdAt?: string
 }
 
 export interface LoginResponse {
