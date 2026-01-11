@@ -57,7 +57,7 @@ export const useTrainingStore = defineStore('training', {
 
       this.trainingGroups = selected.map((group) => {
         const wordStats: WordStats = {}
-        group.words.forEach((word) => {
+        group.words.forEach((word: Word) => {
           wordStats[word.id] = { shown: 0, correct: 0 }
         })
         return {
@@ -70,7 +70,7 @@ export const useTrainingStore = defineStore('training', {
 
       const queue: TrainingQueueItem[] = []
       this.trainingGroups.forEach((group) => {
-        group.words.forEach((word) => {
+        group.words.forEach((word: Word) => {
           for (let i = 0; i < 3; i++) {
             queue.push({ word, group })
           }
@@ -108,18 +108,11 @@ export const useTrainingStore = defineStore('training', {
       if (!userId) return console.warn('No user ID found')
 
       try {
-        const requests = groupIds.map((groupId) =>
-          axios.post<LearnedDuringTraining>(
-            `https://x8ki-letl-twmt.n7.xano.io/api:PKgvb2gt/learned_groups`,
-            {
-              user_id: userId,
-              group_id: groupId,
-            },
-          ),
-        )
-        const responses = await Promise.allSettled(requests)
-        console.log('responses', responses)
-        return responses
+        const response = await axios.post<LearnedDuringTraining>(`http://localhost:3000/learned`, {
+          userId,
+          groupIds,
+        })
+        return response.data
       } catch (error) {
         console.error('Error updating learned groups:', error)
         throw error
