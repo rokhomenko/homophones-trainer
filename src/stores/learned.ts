@@ -16,40 +16,38 @@ export const useLearnedStore = defineStore('learned', {
   }),
 
   getters: {
-    separateLearningGroups: (
-      state,
-    ): { learnedWords: GroupWithWords[]; wordsToLearn: GroupWithWords[] } => {
+    separateLearningGroups: (state) => {
       const groupStore = useGroupsStore()
       const wordsStore = useWordsStore()
       const authStore = useAuthStore()
-      if (!authStore.user) {
-        throw Error('User must be authenticated to access learning groups')
+
+      const userId = authStore.user?.userId
+      if (!userId) return { learnedWords: [], wordsToLearn: [] }
+
+      const learnedGroupsIds = state.learnedMap[userId] || []
+
+      if (groupStore.groups.length === 0) {
+        return { learnedWords: [], wordsToLearn: [] }
       }
-      const userId = authStore.user.userId
 
-      const allGroups = groupStore.groups.filter((g) => g.additional_to_id === 0)
+      const allGroups = groupStore.groups.filter(
+        (g: any) => Number(g.additional_to_id) === 0 || Number(g.additionalToId) === 0,
+      )
 
-      const wordsByGroup = wordsStore.words.reduce((acc, word) => {
-        if (!acc[word.group_id]) acc[word.group_id] = []
-        acc[word.group_id].push(word)
+      const wordsByGroup = wordsStore.words.reduce((acc: any, word: any) => {
+        const gId = word.group_id || word.groupId
+        if (!acc[gId]) acc[gId] = []
+        acc[gId].push(word)
         return acc
-      }, {} as GroupedWords)
-
-      const learnedGroupsId = state.learnedMap[userId] || []
+      }, {})
 
       const learnedWords = allGroups
-        .filter((g) => learnedGroupsId.includes(g.id))
-        .map((g) => ({
-          ...g,
-          words: wordsByGroup[g.id] || [],
-        }))
+        .filter((g: any) => learnedGroupsIds.includes(Number(g.id)))
+        .map((g: any) => ({ ...g, words: wordsByGroup[g.id] || [] }))
 
       const wordsToLearn = allGroups
-        .filter((g) => !learnedGroupsId.includes(g.id))
-        .map((g) => ({
-          ...g,
-          words: wordsByGroup[g.id] || [],
-        }))
+        .filter((g: any) => !learnedGroupsIds.includes(Number(g.id)))
+        .map((g: any) => ({ ...g, words: wordsByGroup[g.id] || [] }))
 
       return {
         learnedWords,
@@ -64,26 +62,17 @@ export const useLearnedStore = defineStore('learned', {
       this.error = null
       try {
         const authStore = useAuthStore()
-        if (!authStore.user) throw new Error('User not authenticated')
+        const userId = authStore.user?.userId
+        if (!userId) return
 
-        const userId = authStore.user.userId
-
-        const res = await axios.get<LearnedGroup[]>(
-          'https://x8ki-letl-twmt.n7.xano.io/api:PKgvb2gt/get_by_user',
-          {
-            params: {
-              user_id: userId,
-            },
-            headers: {
-              Authorization: `Bearer ${authStore.token}`,
-            },
-          },
-        )
+        const res = await axios.get(`http://localhost:3000/learned/${userId}`, {
+          headers: { Authorization: `Bearer ${authStore.token}` },
+        })
 
         this.learned_groups = res.data
 
         this.learnedMap = {
-          [userId]: res.data.map((item) => item.group_id),
+          [userId]: res.data.map((item: any) => item.id),
         }
       } catch (err: any) {
         this.error = err.message || 'Error fetching learned groups'
