@@ -30,24 +30,22 @@ export const useLearnedStore = defineStore('learned', {
         return { learnedWords: [], wordsToLearn: [] }
       }
 
-      const allGroups = groupStore.groups.filter(
-        (g: any) => Number(g.additional_to_id) === 0 || Number(g.additionalToId) === 0,
-      )
+      const allGroups = groupStore.groups.filter((g) => g.additionalToId === 0)
 
-      const wordsByGroup = wordsStore.words.reduce((acc: any, word: any) => {
-        const gId = word.group_id || word.groupId
+      const wordsByGroup = wordsStore.words.reduce<GroupedWords>((acc, word) => {
+        const gId = word.groupId || word.groupId
         if (!acc[gId]) acc[gId] = []
         acc[gId].push(word)
         return acc
       }, {})
 
-      const learnedWords = allGroups
-        .filter((g: any) => learnedGroupsIds.includes(Number(g.id)))
-        .map((g: any) => ({ ...g, words: wordsByGroup[g.id] || [] }))
+      const learnedWords: GroupWithWords[] = allGroups
+        .filter((g) => learnedGroupsIds.includes(g.id))
+        .map((g) => ({ ...g, words: wordsByGroup[g.id] || [] }))
 
-      const wordsToLearn = allGroups
-        .filter((g: any) => !learnedGroupsIds.includes(Number(g.id)))
-        .map((g: any) => ({ ...g, words: wordsByGroup[g.id] || [] }))
+      const wordsToLearn: GroupWithWords[] = allGroups
+        .filter((g) => !learnedGroupsIds.includes(g.id))
+        .map((g) => ({ ...g, words: wordsByGroup[g.id] || [] }))
 
       return {
         learnedWords,
@@ -65,14 +63,14 @@ export const useLearnedStore = defineStore('learned', {
         const userId = authStore.user?.userId
         if (!userId) return
 
-        const res = await axios.get(`http://localhost:3000/learned/${userId}`, {
+        const res = await axios.get<LearnedGroup[]>(`http://localhost:3000/learned/${userId}`, {
           headers: { Authorization: `Bearer ${authStore.token}` },
         })
 
         this.learned_groups = res.data
 
         this.learnedMap = {
-          [userId]: res.data.map((item: any) => item.id),
+          [userId]: res.data.map((item) => item.id),
         }
       } catch (err: any) {
         this.error = err.message || 'Error fetching learned groups'
