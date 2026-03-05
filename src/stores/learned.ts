@@ -2,7 +2,8 @@ import { defineStore } from 'pinia'
 import { useGroupsStore } from './groups'
 import { useWordsStore } from './words'
 import { useAuthStore } from './auth'
-import axios from 'axios'
+import { getErrorMessage } from '@/utils/errorHandler'
+import { api } from '@/api/axios'
 import type { LearnedGroupsState, LearnedGroup } from '@/types/learned'
 import type { GroupedWords } from '@/types/words'
 import type { GroupWithWords } from '@/types/derived'
@@ -63,7 +64,7 @@ export const useLearnedStore = defineStore('learned', {
         const userId = authStore.user?.userId
         if (!userId) return
 
-        const res = await axios.get<LearnedGroup[]>(`http://localhost:3000/learned/${userId}`, {
+        const res = await api.get<LearnedGroup[]>(`/learned/${userId}`, {
           headers: { Authorization: `Bearer ${authStore.token}` },
         })
 
@@ -72,8 +73,8 @@ export const useLearnedStore = defineStore('learned', {
         this.learnedMap = {
           [userId]: res.data.map((item) => item.id),
         }
-      } catch (err: any) {
-        this.error = err.message || 'Error fetching learned groups'
+      } catch (error) {
+        this.error = getErrorMessage(error, 'Error fetching learned groups')
       } finally {
         this.loading = false
       }

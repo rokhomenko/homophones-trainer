@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import axios from 'axios'
+import { api } from '@/api/axios'
 import { AxiosError } from 'axios'
 import type { AuthState, LoginResponse, User } from '@/types/auth'
 import type { ApiError } from '@/types/api'
@@ -21,7 +21,7 @@ export const useAuthStore = defineStore('auth', {
       this.loading = true
       this.error = null
       try {
-        await axios.post(`http://localhost:3000/auth/register`, { email, password })
+        await api.post(`/auth/register`, { email, password })
         await this.login(email, password)
       } catch (err) {
         const error = err as AxiosError<ApiError>
@@ -35,7 +35,7 @@ export const useAuthStore = defineStore('auth', {
       this.loading = true
       this.error = null
       try {
-        const res = await axios.post<LoginResponse>(`http://localhost:3000/auth/login`, {
+        const res = await api.post<LoginResponse>(`/auth/login`, {
           email,
           password,
         })
@@ -56,7 +56,7 @@ export const useAuthStore = defineStore('auth', {
     async getUser() {
       if (!this.token) return
       try {
-        const res = await axios.get<User>(`http://localhost:3000/auth/me`, {
+        const res = await api.get<User>(`/auth/me`, {
           headers: { Authorization: `Bearer ${this.token}` },
         })
         this.user = res.data

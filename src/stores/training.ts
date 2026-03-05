@@ -1,16 +1,14 @@
 import { defineStore } from 'pinia'
-import axios from 'axios'
+import { api } from '@/api/axios'
 import type { Word } from '@/types/words'
 import type {
   WordStats,
-  WordStat,
   TrainingState,
   TrainingGroup,
   TrainingQueueItem,
   GroupResult,
   LearnedDuringTraining,
 } from '@/types/training'
-import type { GroupWithWords } from '@/types/derived'
 import { useLearnedStore } from './learned'
 import { useAuthStore } from './auth'
 
@@ -108,7 +106,7 @@ export const useTrainingStore = defineStore('training', {
       if (!userId) return console.warn('No user ID found')
 
       try {
-        const response = await axios.post<LearnedDuringTraining>(`http://localhost:3000/learned`, {
+        const response = await api.post<LearnedDuringTraining>(`/learned`, {
           userId,
           groupIds,
         })
