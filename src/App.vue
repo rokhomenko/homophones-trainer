@@ -1,7 +1,13 @@
 <script setup lang="ts">
-  import { useAuthStore } from './stores/auth'
-  const auth = useAuthStore()
-  auth.getUser()
+import { useAuthStore } from './stores/auth'
+import { onMounted } from 'vue'
+const auth = useAuthStore()
+
+onMounted(() => {
+  if (auth.token && !auth.user) {
+    auth.getUser()
+  }
+})
 </script>
 
 <template>

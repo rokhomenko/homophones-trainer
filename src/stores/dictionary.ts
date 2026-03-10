@@ -1,40 +1,18 @@
-import { defineStore } from "pinia"
-import { useGroupsStore } from "./groups"
-import { useWordsStore } from "./words"
-import type { GroupedWords } from '@/types/words'
+import { defineStore } from 'pinia'
+import type { Group } from '@/types/groups'
 
 export const useDictionaryStore = defineStore('dictionary', {
-  getters: {
-    dictionaryWords() {
-      const groupsStore = useGroupsStore();
-      const wordsStore = useWordsStore();
+  state: () => ({
+    dictionaryWords: {
+      homophonesGroup: [] as Group[],
+      nonHomophonesGroup: [] as Group[],
+    },
+  }),
 
-      const fullGroups = groupsStore.groups.filter(g => g.additional_to_id === 0)
-
-      const wordsByGroup = wordsStore.words.reduce((acc, word) => {
-        if(!acc[word.group_id]) acc[word.group_id] = []
-        acc[word.group_id].push(word)
-        return acc
-      }, {} as GroupedWords)
-
-      const homophonesGroup = fullGroups
-        .filter(g => g.homophones)
-        .map(g => ({
-          ...g,
-          words: wordsByGroup[g.id] || []
-        }))
-
-      const nonHomophonesGroup = fullGroups
-        .filter(g => !g.homophones)
-        .map(g => ({
-          ...g,
-          words: wordsByGroup[g.id] || []
-        }))
-
-        return {
-          homophonesGroup,
-          nonHomophonesGroup
-        }
-    }
-  }
+  actions: {
+    setDictionaryGroups(groups: Group[]) {
+      this.dictionaryWords.homophonesGroup = groups.filter((g) => g.homophones)
+      this.dictionaryWords.nonHomophonesGroup = groups.filter((g) => !g.homophones)
+    },
+  },
 })

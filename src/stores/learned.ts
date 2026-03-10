@@ -1,10 +1,11 @@
-import { defineStore } from "pinia"
-import { useGroupsStore } from "./groups"
-import { useWordsStore } from "./words"
-import { useAuthStore } from "./auth"
-import axios from 'axios'
-import type { LearnedGroupsState, LearnedGroup } from "@/types/learned"
-import type { GroupedWords } from "@/types/words"
+import { defineStore } from 'pinia'
+import { useGroupsStore } from './groups'
+import { useWordsStore } from './words'
+import { useAuthStore } from './auth'
+import { getErrorMessage } from '@/utils/errorHandler'
+import { api } from '@/api/axios'
+import type { LearnedGroupsState, LearnedGroup } from '@/types/learned'
+import type { GroupedWords } from '@/types/words'
 import type { GroupWithWords } from '@/types/derived'
 
 export const useLearnedStore = defineStore('learned', {
@@ -12,48 +13,46 @@ export const useLearnedStore = defineStore('learned', {
     learned_groups: [],
     learnedMap: {},
     loading: false,
-    error: null
+    error: null,
   }),
 
   getters: {
-    separateLearningGroups: (state): {learnedWords: GroupWithWords[], wordsToLearn: GroupWithWords[]} => {
+    separateLearningGroups: (state) => {
       const groupStore = useGroupsStore()
       const wordsStore = useWordsStore()
       const authStore = useAuthStore()
-      if (!authStore.user) {
-        throw Error('User must be authenticated to access learning groups')
+
+      const userId = authStore.user?.userId
+      if (!userId) return { learnedWords: [], wordsToLearn: [] }
+
+      const learnedGroupsIds = state.learnedMap[userId] || []
+
+      if (groupStore.groups.length === 0) {
+        return { learnedWords: [], wordsToLearn: [] }
       }
-      const userId = authStore.user.id
 
-      const allGroups = groupStore.groups.filter(g => g.additional_to_id === 0)
+      const allGroups = groupStore.groups.filter((g) => g.additionalToId === 0)
 
-      const wordsByGroup = wordsStore.words.reduce((acc, word) => {
-        if(!acc[word.group_id]) acc[word.group_id] = []
-        acc[word.group_id].push(word)
+      const wordsByGroup = wordsStore.words.reduce<GroupedWords>((acc, word) => {
+        const gId = word.groupId || word.groupId
+        if (!acc[gId]) acc[gId] = []
+        acc[gId].push(word)
         return acc
-      }, {} as GroupedWords)
+      }, {})
 
-      const learnedGroupsId = state.learnedMap[userId] || []
+      const learnedWords: GroupWithWords[] = allGroups
+        .filter((g) => learnedGroupsIds.includes(g.id))
+        .map((g) => ({ ...g, words: wordsByGroup[g.id] || [] }))
 
-      const learnedWords = allGroups
-        .filter(g => learnedGroupsId.includes(g.id))
-        .map(g => ({
-          ...g,
-          words: wordsByGroup[g.id] || []
-        }))
+      const wordsToLearn: GroupWithWords[] = allGroups
+        .filter((g) => !learnedGroupsIds.includes(g.id))
+        .map((g) => ({ ...g, words: wordsByGroup[g.id] || [] }))
 
-      const wordsToLearn = allGroups
-        .filter(g => !learnedGroupsId.includes(g.id))
-        .map(g => ({
-          ...g,
-          words: wordsByGroup[g.id] || []
-        }))
-
-        return {
-          learnedWords,
-          wordsToLearn
-        }
-    }
+      return {
+        learnedWords,
+        wordsToLearn,
+      }
+    },
   },
 
   actions: {
@@ -62,33 +61,23 @@ export const useLearnedStore = defineStore('learned', {
       this.error = null
       try {
         const authStore = useAuthStore()
-        if (!authStore.user) throw new Error("User not authenticated")
+        const userId = authStore.user?.userId
+        if (!userId) return
 
-        const userId = authStore.user.id
-
-        const res = await axios.get<LearnedGroup[]>(
-          'https://x8ki-letl-twmt.n7.xano.io/api:PKgvb2gt/get_by_user',
-          {
-            params: {
-              user_id: userId
-            },
-            headers: {
-              Authorization: `Bearer ${authStore.token}`
-            }
-          }
-
-        )
+        const res = await api.get<LearnedGroup[]>(`/learned/${userId}`, {
+          headers: { Authorization: `Bearer ${authStore.token}` },
+        })
 
         this.learned_groups = res.data
 
         this.learnedMap = {
-          [userId]: res.data.map(item => item.group_id)
+          [userId]: res.data.map((item) => item.id),
         }
-      } catch (err: any) {
-        this.error = err.message || 'Error fetching learned groups'
+      } catch (error) {
+        this.error = getErrorMessage(error, 'Error fetching learned groups')
       } finally {
         this.loading = false
       }
-    }
-  }
+    },
+  },
 })

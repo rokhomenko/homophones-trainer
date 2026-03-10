@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
-import axios from 'axios'
+import { getErrorMessage } from '@/utils/errorHandler'
+import { api } from '@/api/axios'
 import type { Word, WordsState } from '@/types/words'
 
 export const useWordsStore = defineStore('words', {
@@ -14,14 +15,13 @@ export const useWordsStore = defineStore('words', {
       this.loading = true
       this.error = null
       try {
-        const res = await axios.get<Word[]>('https://x8ki-letl-twmt.n7.xano.io/api:PKgvb2gt/words')
+        const res = await api.get<Word[]>('/words')
         this.words = res.data
-      } catch (err: any) {
-        this.error = err.message || 'Error loading words'
+      } catch (error) {
+        this.error = getErrorMessage(error, 'Error loading words')
       } finally {
         this.loading = false
       }
-    }
-  }
+    },
+  },
 })
-

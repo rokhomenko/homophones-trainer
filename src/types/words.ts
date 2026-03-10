@@ -1,7 +1,7 @@
 export interface Word {
   id: number
   created_at: number
-  group_id: number
+  groupId: number
   word: string
 }
 

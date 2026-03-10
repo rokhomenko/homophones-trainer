@@ -1,11 +1,16 @@
-import { defineStore } from "pinia"
-import axios from 'axios'
+import { defineStore } from 'pinia'
+import { api } from '@/api/axios'
 import type { Word } from '@/types/words'
-import type { WordStats, WordStat, TrainingState, TrainingGroup, TrainingQueueItem, GroupResult, LearnedDuringTraining } from "@/types/training"
-import type { GroupWithWords } from '@/types/derived'
-import { useLearnedStore } from "./learned"
+import type {
+  WordStats,
+  TrainingState,
+  TrainingGroup,
+  TrainingQueueItem,
+  GroupResult,
+  LearnedDuringTraining,
+} from '@/types/training'
+import { useLearnedStore } from './learned'
 import { useAuthStore } from './auth'
-
 
 export const useTrainingStore = defineStore('training', {
   state: (): TrainingState => ({
@@ -14,7 +19,7 @@ export const useTrainingStore = defineStore('training', {
     finished: false,
     trainingQueue: [],
     currentWordIndex: 0,
-    successfulGroups: []
+    successfulGroups: [],
   }),
 
   getters: {
@@ -23,19 +28,19 @@ export const useTrainingStore = defineStore('training', {
     },
 
     showResults(state): GroupResult[] {
-      return state.trainingGroups.map(group => ({
+      return state.trainingGroups.map((group) => ({
         groupId: group.id,
-        words: group.words.map(w => {
+        words: group.words.map((w) => {
           const stat = group.wordStats[w.id]
           return {
             id: w.id,
             word: w.word,
             shown: stat?.shown ?? 0,
-            correct: stat?.correct ?? 0
+            correct: stat?.correct ?? 0,
           }
-        })
+        }),
       }))
-    }
+    },
   },
 
   actions: {
@@ -43,29 +48,29 @@ export const useTrainingStore = defineStore('training', {
       const learnedStore = useLearnedStore()
       const wordsToLearn = learnedStore.separateLearningGroups.wordsToLearn
 
-      if(!wordsToLearn.length) return
+      if (!wordsToLearn.length) return
 
       const shuffled = [...wordsToLearn].sort(() => Math.random() - 0.5)
       const selected = shuffled.slice(0, 3)
 
-      this.trainingGroups = selected.map(group => {
+      this.trainingGroups = selected.map((group) => {
         const wordStats: WordStats = {}
-        group.words.forEach(word => {
+        group.words.forEach((word: Word) => {
           wordStats[word.id] = { shown: 0, correct: 0 }
         })
         return {
           id: group.id,
           homophones: group.homophones,
           words: group.words,
-          wordStats: wordStats
+          wordStats: wordStats,
         } as TrainingGroup
       })
 
       const queue: TrainingQueueItem[] = []
-      this.trainingGroups.forEach(group => {
-        group.words.forEach(word => {
+      this.trainingGroups.forEach((group) => {
+        group.words.forEach((word: Word) => {
           for (let i = 0; i < 3; i++) {
-            queue.push({word, group})
+            queue.push({ word, group })
           }
         })
       })
@@ -82,7 +87,7 @@ export const useTrainingStore = defineStore('training', {
       const stats = currentItem.group.wordStats[wordId]
       if (!stats) return
 
-      if(isCorrect) {
+      if (isCorrect) {
         return stats.correct++
       }
     },
@@ -97,19 +102,15 @@ export const useTrainingStore = defineStore('training', {
 
     async updateLearned(groupIds: number[]) {
       const authStore = useAuthStore()
-      const userId = authStore.user?.id
+      const userId = authStore.user?.userId
       if (!userId) return console.warn('No user ID found')
 
       try {
-        const requests = groupIds.map(groupId =>
-          axios.post<LearnedDuringTraining>(`https://x8ki-letl-twmt.n7.xano.io/api:PKgvb2gt/learned_groups`, {
-            user_id: userId,
-            group_id: groupId
-          })
-        )
-        const responses = await Promise.allSettled(requests)
-        console.log('responses', responses)
-        return responses
+        const response = await api.post<LearnedDuringTraining>(`/learned`, {
+          userId,
+          groupIds,
+        })
+        return response.data
       } catch (error) {
         console.error('Error updating learned groups:', error)
         throw error
@@ -118,16 +119,12 @@ export const useTrainingStore = defineStore('training', {
 
     async setLearned() {
       this.successfulGroups = this.showResults
-        .filter(group =>
-          group.words.every(w => w.correct >= 3)
-        )
-        .map(group => group.groupId)
-        console.log('setLearned', this.successfulGroups)
+        .filter((group) => group.words.every((w) => w.correct >= 3))
+        .map((group) => group.groupId)
+      console.log('setLearned', this.successfulGroups)
 
       if (!this.successfulGroups.length) return console.log('No successful groups')
       return await this.updateLearned(this.successfulGroups)
-    }
-  }
+    },
+  },
 })
-
-

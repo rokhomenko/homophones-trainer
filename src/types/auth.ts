@@ -1,10 +1,13 @@
 export interface User {
-  id: number
+  userId: number
   email: string
+  createdAt?: string
 }
 
 export interface LoginResponse {
-  authToken: string
+  accessToken: string
+  userId: number
+  email: string
 }
 
 export interface AuthState {

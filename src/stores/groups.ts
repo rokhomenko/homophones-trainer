@@ -1,12 +1,13 @@
 import { defineStore } from 'pinia'
-import axios from 'axios'
+import { getErrorMessage } from '@/utils/errorHandler'
+import { api } from '@/api/axios'
 import type { Group, GroupsState } from '@/types/groups'
 
 export const useGroupsStore = defineStore('groups', {
   state: (): GroupsState => ({
     groups: [],
     loading: false,
-    error: null
+    error: null,
   }),
 
   actions: {
@@ -14,13 +15,13 @@ export const useGroupsStore = defineStore('groups', {
       this.loading = true
       this.error = null
       try {
-        const res = await axios.get<Group[]>('https://x8ki-letl-twmt.n7.xano.io/api:PKgvb2gt/groups')
+        const res = await api.get<Group[]>('/words/groups')
         this.groups = res.data
-      } catch (err: any) {
-        this.error = err.message || 'Error fetching groups'
+      } catch (error) {
+        this.error = getErrorMessage(error, 'Error fetching groups')
       } finally {
         this.loading = false
       }
-    }
-  }
+    },
+  },
 })

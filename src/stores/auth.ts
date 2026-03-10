@@ -1,17 +1,19 @@
 import { defineStore } from 'pinia'
-import axios from 'axios'
+import { api } from '@/api/axios'
+import { AxiosError } from 'axios'
 import type { AuthState, LoginResponse, User } from '@/types/auth'
+import type { ApiError } from '@/types/api'
 
 export const useAuthStore = defineStore('auth', {
   state: (): AuthState => ({
     user: null,
     token: localStorage.getItem('token'),
     loading: false,
-    error: null
+    error: null,
   }),
 
   getters: {
-    isAuthenticated: (state) => !!state.token && !!state.user
+    isAuthenticated: (state) => !!state.token,
   },
 
   actions: {
@@ -19,48 +21,57 @@ export const useAuthStore = defineStore('auth', {
       this.loading = true
       this.error = null
       try {
-        const res = await axios.post<LoginResponse>(`https://x8ki-letl-twmt.n7.xano.io/api:U6KB-8Fp/auth/signup`, {email, password})
-        this.token = res.data.authToken
-        localStorage.setItem('token', this.token)
-        await this.getUser()
-      } catch (err: any) {
-        this.error = err.response?.data?.message || err.message
+        await api.post(`/auth/register`, { email, password })
+        await this.login(email, password)
+      } catch (err) {
+        const error = err as AxiosError<ApiError>
+        this.error = error.response?.data?.message || error.message
       } finally {
         this.loading = false
       }
     },
 
-    async login (email: string, password: string) {
+    async login(email: string, password: string) {
       this.loading = true
       this.error = null
       try {
-        const res = await axios.post<LoginResponse>(`https://x8ki-letl-twmt.n7.xano.io/api:U6KB-8Fp/auth/login`, {email, password})
-        this.token = res.data.authToken
+        const res = await api.post<LoginResponse>(`/auth/login`, {
+          email,
+          password,
+        })
+        this.token = res.data.accessToken
         localStorage.setItem('token', this.token)
-        await this.getUser()
-      } catch (err: any) {
-        this.error = err.response?.data?.message || err.message
+        this.user = {
+          userId: res.data.userId,
+          email: res.data.email,
+        } as User
+      } catch (err) {
+        const error = err as AxiosError<ApiError>
+        this.error = error.response?.data?.message || error.message
       } finally {
         this.loading = false
       }
     },
 
-    async getUser () {
+    async getUser() {
       if (!this.token) return
       try {
-        const res = await axios.get<User>(`https://x8ki-letl-twmt.n7.xano.io/api:U6KB-8Fp/auth/me`, {
-          headers: { Authorization: `Bearer ${this.token}` }
+        const res = await api.get<User>(`/auth/me`, {
+          headers: { Authorization: `Bearer ${this.token}` },
         })
         this.user = res.data
-      } catch {
-        this.logout()
+      } catch (err) {
+        const error = err as AxiosError<ApiError>
+        if (error.response?.status === 401) {
+          this.logout()
+        }
       }
     },
 
-    logout () {
+    logout() {
       this.user = null
       this.token = null
       localStorage.removeItem('token')
-    }
-  }
+    },
+  },
 })
