@@ -18,7 +18,7 @@ const router = createRouter({
         {
           path: 'training',
           name: 'training',
-          component: () => import('@/views/Training.vue'),
+          component: () => import('@/views/TrainingView.vue'),
           meta: { requiresAuth: true },
         },
       ],
