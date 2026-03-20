@@ -3,13 +3,11 @@ import { computed, onMounted, ref } from 'vue'
 import { useWordsStore } from '@/stores/words'
 import { useGroupsStore } from '@/stores/groups'
 import { useDictionaryStore } from '@/stores/dictionary'
-//import { useLearnedStore } from '@/stores/learned'
 import { speak } from '@/utils/speak'
 
 const wordsStore = useWordsStore()
 const groupsStore = useGroupsStore()
 const dictionaryStore = useDictionaryStore()
-//const learnedStore = useLearnedStore()
 
 onMounted(async () => {
   await groupsStore.fetchGroups()

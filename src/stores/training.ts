@@ -121,9 +121,8 @@ export const useTrainingStore = defineStore('training', {
       this.successfulGroups = this.showResults
         .filter((group) => group.words.every((w) => w.correct >= 3))
         .map((group) => group.groupId)
-      console.log('setLearned', this.successfulGroups)
 
-      if (!this.successfulGroups.length) return console.log('No successful groups')
+      if (!this.successfulGroups.length) return
       return await this.updateLearned(this.successfulGroups)
     },
   },
