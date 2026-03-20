@@ -11,6 +11,7 @@ import type {
 } from '@/types/training'
 import { useLearnedStore } from './learned'
 import { useAuthStore } from './auth'
+import { shuffleArray } from '@/utils/shuffleArray'
 
 export const useTrainingStore = defineStore('training', {
   state: (): TrainingState => ({
@@ -50,10 +51,9 @@ export const useTrainingStore = defineStore('training', {
 
       if (!wordsToLearn.length) return
 
-      const shuffled = [...wordsToLearn].sort(() => Math.random() - 0.5)
-      const selected = shuffled.slice(0, 3)
+      const selectedGroups = shuffleArray(wordsToLearn).slice(0, 3)
 
-      this.trainingGroups = selected.map((group) => {
+      this.trainingGroups = selectedGroups.map((group) => {
         const wordStats: WordStats = {}
         group.words.forEach((word: Word) => {
           wordStats[word.id] = { shown: 0, correct: 0 }
@@ -75,7 +75,7 @@ export const useTrainingStore = defineStore('training', {
         })
       })
 
-      this.trainingQueue = queue.sort(() => Math.random() - 0.5)
+      this.trainingQueue = shuffleArray(queue)
       this.currentWordIndex = 0
       this.finished = false
     },
@@ -88,7 +88,7 @@ export const useTrainingStore = defineStore('training', {
       if (!stats) return
 
       if (isCorrect) {
-        return stats.correct++
+        stats.correct++
       }
     },
 
