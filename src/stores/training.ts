@@ -51,6 +51,10 @@ export const useTrainingStore = defineStore('training', {
 
       if (!wordsToLearn.length) return
 
+      this.successfulGroups = []
+      this.finished = false
+      this.currentWordIndex = 0
+
       const selectedGroups = shuffleArray(wordsToLearn).slice(0, 3)
 
       this.trainingGroups = selectedGroups.map((group) => {
