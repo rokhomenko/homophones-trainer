@@ -12,13 +12,13 @@ const router = createRouter({
         {
           path: 'profile',
           name: 'profile',
-          component: () => import('@/views/Profile.vue'),
+          component: () => import('@/views/ProfileView.vue'),
           meta: { requiresAuth: true },
         },
         {
           path: 'training',
           name: 'training',
-          component: () => import('@/views/Training.vue'),
+          component: () => import('@/views/TrainingView.vue'),
           meta: { requiresAuth: true },
         },
       ],
@@ -30,13 +30,13 @@ const router = createRouter({
         {
           path: 'login',
           name: 'login',
-          component: () => import('@/views/Login.vue'),
+          component: () => import('@/views/LoginView.vue'),
           meta: { guestOnly: true },
         },
         {
           path: 'register',
           name: 'register',
-          component: () => import('@/views/Register.vue'),
+          component: () => import('@/views/RegisterView.vue'),
           meta: { guestOnly: true },
         },
       ],

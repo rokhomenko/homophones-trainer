@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useAuthStore } from './stores/auth'
 import { onMounted } from 'vue'
+import { Analytics } from "@vercel/analytics/vue"
 const auth = useAuthStore()
 
 onMounted(() => {
@@ -11,6 +12,7 @@ onMounted(() => {
 </script>
 
 <template>
+  <Analytics />
   <router-view></router-view>
 </template>
 

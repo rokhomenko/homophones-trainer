@@ -11,6 +11,7 @@ import type {
 } from '@/types/training'
 import { useLearnedStore } from './learned'
 import { useAuthStore } from './auth'
+import { shuffleArray } from '@/utils/shuffleArray'
 
 export const useTrainingStore = defineStore('training', {
   state: (): TrainingState => ({
@@ -50,10 +51,13 @@ export const useTrainingStore = defineStore('training', {
 
       if (!wordsToLearn.length) return
 
-      const shuffled = [...wordsToLearn].sort(() => Math.random() - 0.5)
-      const selected = shuffled.slice(0, 3)
+      this.successfulGroups = []
+      this.finished = false
+      this.currentWordIndex = 0
 
-      this.trainingGroups = selected.map((group) => {
+      const selectedGroups = shuffleArray(wordsToLearn).slice(0, 3)
+
+      this.trainingGroups = selectedGroups.map((group) => {
         const wordStats: WordStats = {}
         group.words.forEach((word: Word) => {
           wordStats[word.id] = { shown: 0, correct: 0 }
@@ -75,7 +79,7 @@ export const useTrainingStore = defineStore('training', {
         })
       })
 
-      this.trainingQueue = queue.sort(() => Math.random() - 0.5)
+      this.trainingQueue = shuffleArray(queue)
       this.currentWordIndex = 0
       this.finished = false
     },
@@ -88,7 +92,7 @@ export const useTrainingStore = defineStore('training', {
       if (!stats) return
 
       if (isCorrect) {
-        return stats.correct++
+        stats.correct++
       }
     },
 
@@ -121,9 +125,8 @@ export const useTrainingStore = defineStore('training', {
       this.successfulGroups = this.showResults
         .filter((group) => group.words.every((w) => w.correct >= 3))
         .map((group) => group.groupId)
-      console.log('setLearned', this.successfulGroups)
 
-      if (!this.successfulGroups.length) return console.log('No successful groups')
+      if (!this.successfulGroups.length) return
       return await this.updateLearned(this.successfulGroups)
     },
   },
