@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { useWordsStore } from '@/stores/words'
 import { useGroupsStore } from '@/stores/groups'
 import { useDictionaryStore } from '@/stores/dictionary'
@@ -22,14 +22,31 @@ const isDisabled = ref(false)
 
 const showAllHomophones = ref(false)
 const showAllNonHomophones = ref(false)
+const isMobile = ref(window.innerWidth < 768)
 
-const limitedHomophonesGroup = computed(() =>
-  showAllHomophones.value ? homophonesGroup.value : homophonesGroup.value?.slice(0, 5),
-)
+const updateMobile = () => {
+  isMobile.value = window.innerWidth < 768
+}
 
-const limitedNonHomophonesGroup = computed(() =>
-  showAllNonHomophones.value ? nonHomophonesGroup.value : nonHomophonesGroup.value?.slice(0, 5),
-)
+onMounted(() => {
+  window.addEventListener('resize', updateMobile)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', updateMobile)
+})
+
+const limitedHomophonesGroup = computed(() => {
+  return isMobile.value && !showAllHomophones.value
+    ? homophonesGroup.value?.slice(0, 5)
+    : homophonesGroup.value
+})
+
+const limitedNonHomophonesGroup = computed(() => {
+  return isMobile.value && !showAllNonHomophones.value
+    ? nonHomophonesGroup.value?.slice(0, 5)
+    : nonHomophonesGroup.value
+})
 
 async function handleSpeak(word: string) {
   if (isDisabled.value) return
@@ -114,7 +131,7 @@ async function handleSpeak(word: string) {
             </li>
           </ul>
           <button
-            v-if="homophonesGroup?.length > 5 && !showAllHomophones"
+            v-if="homophonesGroup?.length > 5 && !showAllHomophones && isMobile"
             @click="showAllHomophones = true"
             class="mt-3 px-4 py-2 bg-teal-500 text-white rounded-lg hover:bg-teal-600 transition-colors self-center"
           >
@@ -159,7 +176,7 @@ async function handleSpeak(word: string) {
             </li>
           </ul>
           <button
-            v-if="nonHomophonesGroup?.length > 5 && !showAllNonHomophones"
+            v-if="nonHomophonesGroup?.length > 5 && !showAllNonHomophones && isMobile"
             @click="showAllNonHomophones = true"
             class="mt-3 px-4 py-2 bg-teal-500 text-white rounded-lg hover:bg-teal-600 transition-colors self-center"
           >
