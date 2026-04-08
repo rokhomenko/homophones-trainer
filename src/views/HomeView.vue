@@ -133,9 +133,19 @@ async function handleSpeak(word: string) {
           <button
             v-if="homophonesGroup?.length > 5 && !showAllHomophones && isMobile"
             @click="showAllHomophones = true"
-            class="mt-3 px-4 py-2 bg-teal-500 text-white rounded-lg hover:bg-teal-600 transition-colors self-center"
+            class="flex my-2 md:my-3 gap-2 px-3 py-2 cursor-pointer items-center self-center text-teal-400"
           >
             Show all
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="size-4"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+            </svg>
           </button>
         </div>
       </section>
@@ -178,9 +188,19 @@ async function handleSpeak(word: string) {
           <button
             v-if="nonHomophonesGroup?.length > 5 && !showAllNonHomophones && isMobile"
             @click="showAllNonHomophones = true"
-            class="mt-3 px-4 py-2 bg-teal-500 text-white rounded-lg hover:bg-teal-600 transition-colors self-center"
+            class="flex my-2 md:my-3 gap-2 px-3 py-2 cursor-pointer items-center self-center text-teal-400"
           >
             Show all
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="size-4"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+            </svg>
           </button>
         </div>
       </section>
