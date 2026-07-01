@@ -18,20 +18,20 @@ const onRegister = async () => {
 </script>
 
 <template>
-  <div class="flex text-slate-500 font-bold text-2xl lg:mb-[1rem]">Homophones Trainer</div>
-  <div class="text-slate-500">Register</div>
-  <input v-model="email" class="border border-emerald-200 rounded-md px-3 py-2 focus:border-cyan-400 focus:outline-none"
+  <div class="flex text-gray-700 font-bold text-2xl lg:mb-[1rem]">Homophones Trainer</div>
+  <div class="text-gray-700">Register</div>
+  <input v-model="email" class="border border-gray-400 rounded-md shadow-sm px-3 py-2 focus:border-gray-900 focus:outline-none"
     placeholder="Email">
-  <input type="password" class="border border-emerald-200 rounded-md px-3 py-2 focus:border-cyan-400 focus:outline-none"
+  <input type="password" class="border border-gray-400 rounded-md shadow-sm px-3 py-2 focus:border-gray-900 focus:outline-none"
     v-model="password" placeholder="Password">
   <button
-    class="bg-gradient-to-r from-amber-500 to-yellow-500 text-white text-sm rounded-2xl px-10 py-3 text-center font-bold"
+    class="bg-gradient-to-r from-[#111827] to-[#404040] text-white text-sm rounded-2xl shadow-sm px-10 py-3 text-center font-bold"
     @click="onRegister" :disabled="auth.loading">
     {{ auth.loading ? 'Loading' : 'Submit' }}
   </button>
   <p v-if="auth.error">
     {{ auth.error }}
-    <a class="text-cyan-600">
+    <a class="text-gray-700">
       <router-link v-if="auth.error.toLowerCase().includes('use')" to="/auth/login" @click="auth.error = null">
         Login
       </router-link>

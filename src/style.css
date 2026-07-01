@@ -1,1 +1,27 @@
 @import "tailwindcss";
+
+:root {
+  color-scheme: light;
+  background: #f7f7f5;
+  color: #1f2933;
+}
+
+body {
+  background: #f7f7f5;
+}
+
+button,
+a,
+input {
+  transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease,
+    box-shadow 180ms ease, opacity 180ms ease;
+}
+
+input {
+  background: #ffffff;
+  color: #111827;
+}
+
+input:focus {
+  box-shadow: 0 0 0 3px rgb(17 24 39 / 0.08);
+}
