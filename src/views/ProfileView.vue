@@ -28,9 +28,9 @@ async function handleSpeak(word: string) {
 
 <template>
   <div class="flex flex-row">
-    <section class="flex justify-center flex-col w-full md:w-2/3 lg:w-1/2 bg-cyan-50 text-cyan-800 rounded-lg mx-auto">
+    <section class="flex justify-center flex-col w-full md:w-2/3 lg:w-1/2 bg-slate-50 text-gray-800 rounded-lg shadow-sm mx-auto">
       <h2
-        class="flex justify-center items-center text-xl w-full h-15 bg-gradient-to-b text-teal-900 from-teal-300 via-teal-400 to-teal-400 rounded-t-lg">
+        class="flex justify-center items-center text-xl w-full h-15 bg-gradient-to-b text-gray-800 from-gray-100 via-gray-300 to-gray-300 rounded-t-lg">
         Groups you have already learned</h2>
       <div v-if="learnedWords.length">
         <div v-if="learnedStore.loading" class="text-center p-5">Loading…</div>
@@ -38,7 +38,7 @@ async function handleSpeak(word: string) {
           <ul v-for="group in learnedWords" :key="group.id"
             class="flex flex-row gap-x-5 items-center justify-center p-y-2 flex-wrap">
             <li v-for="word in group.words" :key="word.id" :disabled="isDisabled" @click="handleSpeak(word.word)"
-              class="flex my-3 gap-2 px-3 py-2 border border-cyan-800 rounded-lg cursor-pointer">
+              class="flex my-3 gap-2 px-3 py-2 border border-gray-400 rounded-lg shadow-sm cursor-pointer">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="size-6">
                 <path stroke-linecap="round" stroke-linejoin="round"
