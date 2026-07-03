@@ -28,17 +28,16 @@ async function handleSpeak(word: string) {
 
 <template>
   <div class="flex flex-row">
-    <section class="flex justify-center flex-col w-full md:w-2/3 lg:w-1/2 bg-slate-50 text-gray-800 rounded-lg shadow-sm mx-auto">
-      <h2
-        class="flex justify-center items-center text-xl w-full h-15 bg-gradient-to-b text-gray-800 from-gray-100 via-gray-300 to-gray-300 rounded-t-lg">
+    <section class="mx-auto flex w-full flex-col justify-center overflow-hidden border border-stone-800/90 bg-[#15130f]/88 text-stone-200 shadow-[0_18px_60px_rgb(0_0_0/0.25)] rounded-[1.5rem] md:w-2/3 lg:w-1/2">
+      <h2 class="border-b border-stone-800 bg-stone-950/35 px-5 py-4 text-center text-sm font-black uppercase tracking-[0.24em] text-stone-300">
         Groups you have already learned</h2>
       <div v-if="learnedWords.length">
-        <div v-if="learnedStore.loading" class="text-center p-5">Loading…</div>
-        <div v-else class="flex flex-col mt-7 mb-5">
+        <div v-if="learnedStore.loading" class="p-5 text-center text-stone-400">Loading…</div>
+        <div v-else class="flex flex-col px-5 py-6">
           <ul v-for="group in learnedWords" :key="group.id"
-            class="flex flex-row gap-x-5 items-center justify-center p-y-2 flex-wrap">
+            class="flex flex-row flex-wrap items-center justify-center gap-x-4">
             <li v-for="word in group.words" :key="word.id" :disabled="isDisabled" @click="handleSpeak(word.word)"
-              class="flex my-3 gap-2 px-3 py-2 border border-gray-400 rounded-lg shadow-sm cursor-pointer">
+              class="my-2 flex cursor-pointer gap-2 border border-dashed border-stone-700 bg-[#0f0e0c] px-3 py-2 text-stone-200 hover:border-[#9e553a] hover:text-[#d99165] rounded-xl">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="size-6">
                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -49,7 +48,7 @@ async function handleSpeak(word: string) {
           </ul>
         </div>
       </div>
-      <div class="text-center p-5" v-else>You don't have learned words</div>
+      <div class="p-8 text-center text-stone-400" v-else>You don't have learned words</div>
     </section>
   </div>
 </template>

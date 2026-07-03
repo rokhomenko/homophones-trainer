@@ -1,7 +1,8 @@
 <template>
-  <img src="../../public/logo-grey.png" width="50px" class="absolute left-1/2 -translate-x-1/2" />
-  <div class="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-slate-50 to-gray-200 p-4">
-    <div class="flex flex-col items-center justify-center bg-white h-[50vh] lg:h-[50vh] w-[90vw] lg:w-[40vw] rounded-md shadow-sm p-8 gap-5">
+  <div class="relative flex min-h-screen items-center justify-center overflow-hidden p-4">
+    <img src="../../public/logo-grey.png" width="54px" class="absolute left-1/2 top-6 z-10 -translate-x-1/2 opacity-80" />
+    <div class="absolute inset-x-6 top-24 h-px bg-gradient-to-r from-transparent via-stone-600/60 to-transparent"></div>
+    <div class="relative z-10 flex w-full max-w-md flex-col items-center justify-center gap-5 border border-stone-700/70 bg-[#15130f]/88 p-8 text-center shadow-[0_24px_80px_rgb(0_0_0/0.38)] backdrop-blur rounded-[2rem] sm:p-10">
       <router-view />
     </div>
   </div>

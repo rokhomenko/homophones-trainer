@@ -61,53 +61,55 @@ async function handleSpeak(word: string) {
 </script>
 
 <template>
-  <div class="flex flex-col">
-    <div
-      class="flex flex-col justify-center items-center mt-1 md:mt-5 lg:mt-7 mb-5 sm:mb-2 md:mb-5 lg:mb-7 text-gray-800 opacity-80">
-      <div>
-        <p class="mb-2">
+  <div class="flex flex-col gap-10">
+    <section class="relative overflow-hidden border border-stone-800/90 bg-[#161411]/82 px-5 py-8 shadow-[0_24px_90px_rgb(0_0_0/0.28)] rounded-[2rem] sm:px-8 lg:px-12">
+      <div class="absolute -right-20 -top-28 h-64 w-64 rounded-full bg-[#8c3f2d]/15 blur-3xl"></div>
+      <div class="relative grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
+        <div class="max-w-3xl text-stone-300">
+          <p class="mb-4 text-xs font-semibold uppercase tracking-[0.32em] text-[#d99165]">ear training / no gloss</p>
+          <h2 class="mb-6 text-4xl font-black tracking-[-0.06em] text-stone-100 sm:text-6xl">Hear the crack between almost identical words.</h2>
+          <p class="mb-3 leading-7">
           Do you hear the difference between the words below? Sometimes yes, sometimes no, and
           sometimes there's no difference at all — because they genuinely sound the same.
-        </p>
-        <p class="mb-2">
+          </p>
+          <p class="mb-3 leading-7">
           This app might not be useful for native speakers or those with an English level of C1 and
           above. But for anyone who recently wondered how to correctly pronounce "beach" versus...
           well, you know... this is for you.
-        </p>
-        <p class="mb-2">
-          <span class="text-md text-lg"><b>What are Homophones?</b></span>
+          </p>
+          <p class="mb-3 leading-7">
+          <span class="mr-2 font-bold text-stone-100">What are Homophones?</span>
           They are words that truly sound alike, even though they are distinct words (like two, to,
           and too).
-        </p>
-        <p class="mb-3">
+          </p>
+          <p class="leading-7">
           I've also included a group of Non-Homophones in the app. These are words that sound
           different, but it’s not always obvious how to pronounce them correctly.
-        </p>
-      </div>
-      <div
-        class="bg-gradient-to-r from-[#111827] to-[#404040] text-white text-lg sm:text-xl md:text-2xl lg:text-3xl rounded-2xl shadow-sm py-3 sm:py-4 md:py-5 px-8 md:my-5 sm:px-12 md:px-20 lg:px-35 max-w-[calc(100%-30px)] text-center">
-        <router-link to="/training" class="inline-block">Go train</router-link>
-      </div>
-      <div class="self-start">
-        <p class="my-2 w-full">
+          </p>
+        </div>
+        <div class="flex flex-col gap-5 border-l border-stone-700/70 pl-5 text-stone-300">
+          <router-link to="/training" class="w-fit border border-[#9e553a]/70 bg-[#241812] px-7 py-4 text-lg font-black uppercase tracking-[0.22em] text-stone-100 shadow-[8px_8px_0_rgb(0_0_0/0.35)] hover:bg-[#2b1b14] hover:text-[#f0b180] sm:text-xl">
+            Go train
+          </router-link>
+          <p class="max-w-sm text-sm leading-6 text-stone-400">
           Create an account to start training and see your progress as you learn new words.
-        </p>
+          </p>
+        </div>
       </div>
-    </div>
-    <div class="flex flex-col md:flex-row justify-center gap-10 items-start">
-      <section class="flex flex-col w-full md:w-2/3 lg:w-1/2 bg-slate-50 text-gray-800 rounded-lg shadow-sm">
-        <h2
-          class="flex justify-center items-center text-xl w-full h-15 bg-gradient-to-b text-gray-800 from-gray-100 via-gray-300 to-gray-300 rounded-t-lg">
+    </section>
+    <div class="grid gap-6 lg:grid-cols-2">
+      <section class="flex flex-col overflow-hidden border border-stone-800/90 bg-[#15130f]/88 text-stone-200 shadow-[0_18px_60px_rgb(0_0_0/0.25)] rounded-[1.5rem]">
+        <h2 class="border-b border-stone-800 bg-stone-950/35 px-5 py-4 text-sm font-black uppercase tracking-[0.24em] text-stone-300">
           Homophones Group
         </h2>
-        <div class="flex flex-col mt-3 mb-2 lg:mt-7 lg:mb-5 max-[400px]:text-sm">
+        <div class="flex flex-col px-4 py-5 max-[400px]:text-sm sm:px-6">
           <div v-if="isLoading" class="flex justify-center py-10">
-            <p class="text-gray-800 text-xl">wait...</p>
+            <p class="text-xl text-stone-400">wait...</p>
           </div>
           <ul v-for="group in limitedHomophonesGroup" :key="group.id"
-            class="flex flex-row gap-x-5 items-center justify-center p-y-2 flex-wrap">
+            class="flex flex-row flex-wrap items-center justify-center gap-x-4">
             <li v-for="word in group.words" :key="word.id" :disabled="isDisabled" @click="handleSpeak(word.word)"
-              class="flex my-2 md:my-3 gap-2 px-3 py-2 border border-dotted border-gray-400 rounded-lg shadow-sm cursor-pointer items-center">
+              class="my-2 flex cursor-pointer items-center gap-2 border border-dashed border-stone-700 bg-[#0f0e0c] px-3 py-2 text-stone-200 hover:border-[#9e553a] hover:text-[#d99165] md:my-3 rounded-xl">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="size-6">
                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -117,7 +119,7 @@ async function handleSpeak(word: string) {
             </li>
           </ul>
           <button v-if="homophonesGroup?.length > 5 && !showAllHomophones && isMobile" @click="showAllHomophones = true"
-            class="flex my-2 md:my-3 gap-2 px-3 py-2 cursor-pointer items-center self-center text-gray-700">
+            class="my-2 flex cursor-pointer items-center gap-2 self-center px-3 py-2 text-stone-400 hover:text-[#d99165] md:my-3">
             Show all
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
               stroke="currentColor" class="size-4">
@@ -126,19 +128,18 @@ async function handleSpeak(word: string) {
           </button>
         </div>
       </section>
-      <section class="flex flex-col w-full md:w-2/3 lg:w-1/2 bg-slate-50 text-gray-800 rounded-lg shadow-sm">
-        <h2
-          class="flex justify-center items-center text-xl w-full h-15 bg-gradient-to-b text-gray-800 from-gray-100 via-gray-300 to-gray-300 rounded-t-lg">
+      <section class="flex flex-col overflow-hidden border border-stone-800/90 bg-[#15130f]/88 text-stone-200 shadow-[0_18px_60px_rgb(0_0_0/0.25)] rounded-[1.5rem]">
+        <h2 class="border-b border-stone-800 bg-stone-950/35 px-5 py-4 text-sm font-black uppercase tracking-[0.24em] text-stone-300">
           Non-Homophones Group
         </h2>
-        <div class="flex flex-col mt-3 mb-2 lg:mt-7 lg:mb-5 max-[400px]:text-sm">
+        <div class="flex flex-col px-4 py-5 max-[400px]:text-sm sm:px-6">
           <div v-if="isLoading" class="flex justify-center py-10">
-            <p class="text-gray-800 text-xl">wait...</p>
+            <p class="text-xl text-stone-400">wait...</p>
           </div>
           <ul v-for="group in limitedNonHomophonesGroup" :key="group.id"
-            class="flex flex-row gap-x-5 items-center justify-center p-y-2 flex-wrap">
+            class="flex flex-row flex-wrap items-center justify-center gap-x-4">
             <li v-for="word in group.words" :key="word.id" :disabled="isDisabled" @click="handleSpeak(word.word)"
-              class="flex my-2 md:my-3 gap-2 px-3 py-2 border border-dotted border-gray-400 rounded-lg shadow-sm cursor-pointer items-center">
+              class="my-2 flex cursor-pointer items-center gap-2 border border-dashed border-stone-700 bg-[#0f0e0c] px-3 py-2 text-stone-200 hover:border-[#9e553a] hover:text-[#d99165] md:my-3 rounded-xl">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="size-6">
                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -149,7 +150,7 @@ async function handleSpeak(word: string) {
           </ul>
           <button v-if="nonHomophonesGroup?.length > 5 && !showAllNonHomophones && isMobile"
             @click="showAllNonHomophones = true"
-            class="flex my-2 md:my-3 gap-2 px-3 py-2 cursor-pointer items-center self-center text-gray-700">
+            class="my-2 flex cursor-pointer items-center gap-2 self-center px-3 py-2 text-stone-400 hover:text-[#d99165] md:my-3">
             Show all
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
               stroke="currentColor" class="size-4">
