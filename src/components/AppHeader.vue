@@ -18,7 +18,7 @@ function toggleMenu() {
 
 <template>
   <header class="sticky top-0 z-30 border-b border-stone-800/80 bg-[#11100e]/88 backdrop-blur-xl">
-    <div class="mx-auto flex max-w-7xl flex-row items-center justify-between px-4 py-3 sm:px-6">
+    <div class="mx-auto flex max-w-7xl flex-row items-start justify-between px-4 pb-3 sm:px-6">
       <router-link to="/#">
         <div class="flex flex-row items-center gap-3">
           <img src="../../public/logo-grey.png" width="40px" class="opacity-85" />
