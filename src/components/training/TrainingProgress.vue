@@ -15,11 +15,11 @@ const calculateRowWidth = computed(() => {
 </script>
 
 <template>
-  <div class="flex flex-col">
-    <div class="flex flex-col w-full" v-for="(g, groupIndex) in trainingStore.showResults" :key="g.groupId">
+  <div class="flex flex-col rounded-[1.5rem] border border-stone-800/90 bg-[#15130f]/72 p-4 shadow-[0_18px_60px_rgb(0_0_0/0.2)]">
+    <div class="flex w-full flex-col" v-for="(g, groupIndex) in trainingStore.showResults" :key="g.groupId">
       <div v-for="(w, wordIndex) in g.words" :key="w.id">
         <div v-if="calculateRowWidth[groupIndex][wordIndex] > 0"
-          class="bg-gradient-to-r from-gray-600 to-gray-900 mb-3 text-white font-bold rounded-md shadow-sm px-2"
+          class="mb-3 border border-[#9e553a]/35 bg-gradient-to-r from-[#3a2419] to-[#161411] px-3 py-1 text-sm font-bold text-stone-100 rounded-xl"
           :style="{ width: calculateRowWidth[groupIndex][wordIndex] + '%' }">
           {{ w.word }}
         </div>
