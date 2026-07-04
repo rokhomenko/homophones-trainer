@@ -62,44 +62,50 @@ async function handleSpeak(word: string) {
 
 <template>
   <div class="flex flex-col gap-10">
-    <section class="relative overflow-hidden border border-stone-800/90 bg-[#161411]/82 px-5 py-8 shadow-[0_24px_90px_rgb(0_0_0/0.28)] rounded-[2rem] sm:px-8 lg:px-12">
+    <section
+      class="relative overflow-hidden border border-stone-800/90 bg-[#161411]/82 px-5 py-8 shadow-[0_24px_90px_rgb(0_0_0/0.28)] rounded-[2rem] sm:px-8 lg:px-12">
       <div class="absolute -right-20 -top-28 h-64 w-64 rounded-full bg-[#8c3f2d]/15 blur-3xl"></div>
       <div class="relative grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
         <div class="max-w-3xl text-stone-300">
-          <p class="mb-4 text-xs font-semibold uppercase tracking-[0.32em] text-[#d99165]">ear training / no gloss</p>
-          <h2 class="mb-6 text-4xl font-black tracking-[-0.06em] text-stone-100 sm:text-6xl">Hear the crack between almost identical words.</h2>
+          <p class="mb-4 text-xs font-semibold uppercase tracking-[0.32em] text-[#d99165]">ear training / no
+            echolocation required</p>
+          <h2 class="mb-6 text-4xl font-black tracking-[-0.06em] text-stone-100 sm:text-6xl">Hear the crack between
+            almost identical words.</h2>
           <p class="mb-3 leading-7">
-          Do you hear the difference between the words below? Sometimes yes, sometimes no, and
-          sometimes there's no difference at all — because they genuinely sound the same.
+            Do you hear the difference between the words below? Sometimes yes, sometimes no, and
+            sometimes there's no difference at all — because they genuinely sound the same.
           </p>
           <p class="mb-3 leading-7">
-          This app might not be useful for native speakers or those with an English level of C1 and
-          above. But for anyone who recently wondered how to correctly pronounce "beach" versus...
-          well, you know... this is for you.
+            This app might not be useful for native speakers or those with an English level of C1 and
+            above. But for anyone who recently wondered how to correctly pronounce "beach" versus...
+            well, you know... this is for you.
           </p>
           <p class="mb-3 leading-7">
-          <span class="mr-2 font-bold text-stone-100">What are Homophones?</span>
-          They are words that truly sound alike, even though they are distinct words (like two, to,
-          and too).
+            <span class="mr-2 font-bold text-stone-100">What are Homophones?</span>
+            They are words that truly sound alike, even though they are distinct words (like two, to,
+            and too).
           </p>
           <p class="leading-7">
-          I've also included a group of Non-Homophones in the app. These are words that sound
-          different, but it’s not always obvious how to pronounce them correctly.
+            I've also included a group of Non-Homophones in the app. These are words that sound
+            different, but it’s not always obvious how to pronounce them correctly.
           </p>
         </div>
         <div class="flex flex-col gap-5 border-l border-stone-700/70 pl-5 text-stone-300">
-          <router-link to="/training" class="w-fit border border-[#9e553a]/70 bg-[#241812] px-7 py-4 text-lg font-black uppercase tracking-[0.22em] text-stone-100 shadow-[8px_8px_0_rgb(0_0_0/0.35)] hover:bg-[#2b1b14] hover:text-[#f0b180] sm:text-xl">
+          <router-link to="/training"
+            class="w-fit border border-[#9e553a]/70 bg-[#241812] px-7 py-4 text-lg font-black uppercase tracking-[0.22em] text-stone-100 shadow-[8px_8px_0_rgb(0_0_0/0.35)] hover:bg-[#2b1b14] hover:text-[#f0b180] sm:text-xl">
             Go train
           </router-link>
           <p class="max-w-sm text-sm leading-6 text-stone-400">
-          Create an account to start training and see your progress as you learn new words.
+            Create an account to start training and see your progress as you learn new words.
           </p>
         </div>
       </div>
     </section>
     <div class="grid gap-6 lg:grid-cols-2">
-      <section class="flex flex-col overflow-hidden border border-stone-800/90 bg-[#15130f]/88 text-stone-200 shadow-[0_18px_60px_rgb(0_0_0/0.25)] rounded-[1.5rem]">
-        <h2 class="border-b border-stone-800 bg-stone-950/35 px-5 py-4 text-sm font-black uppercase tracking-[0.24em] text-stone-300">
+      <section
+        class="flex flex-col overflow-hidden border border-stone-800/90 bg-[#15130f]/88 text-stone-200 shadow-[0_18px_60px_rgb(0_0_0/0.25)] rounded-[1.5rem]">
+        <h2
+          class="border-b border-stone-800 bg-stone-950/35 px-5 py-4 text-sm font-black uppercase tracking-[0.24em] text-stone-300">
           Homophones Group
         </h2>
         <div class="flex flex-col px-4 py-5 max-[400px]:text-sm sm:px-6">
@@ -128,8 +134,10 @@ async function handleSpeak(word: string) {
           </button>
         </div>
       </section>
-      <section class="flex flex-col overflow-hidden border border-stone-800/90 bg-[#15130f]/88 text-stone-200 shadow-[0_18px_60px_rgb(0_0_0/0.25)] rounded-[1.5rem]">
-        <h2 class="border-b border-stone-800 bg-stone-950/35 px-5 py-4 text-sm font-black uppercase tracking-[0.24em] text-stone-300">
+      <section
+        class="flex flex-col overflow-hidden border border-stone-800/90 bg-[#15130f]/88 text-stone-200 shadow-[0_18px_60px_rgb(0_0_0/0.25)] rounded-[1.5rem]">
+        <h2
+          class="border-b border-stone-800 bg-stone-950/35 px-5 py-4 text-sm font-black uppercase tracking-[0.24em] text-stone-300">
           Non-Homophones Group
         </h2>
         <div class="flex flex-col px-4 py-5 max-[400px]:text-sm sm:px-6">
