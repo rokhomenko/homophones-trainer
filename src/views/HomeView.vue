@@ -94,7 +94,6 @@ async function handleSpeak(word: string) {
           <router-link to="/training"
             class="inline-flex w-fit items-center gap-3 border border-[#9e553a]/70 bg-[#241812] px-7 py-4 text-lg font-black uppercase tracking-[0.22em] text-stone-100 shadow-[8px_8px_0_rgb(0_0_0/0.35)] hover:bg-[#2b1b14] hover:text-[#f0b180] sm:text-xl">
             Go train
-            <img src="/train.png" alt="" aria-hidden="true" class="h-[2em] w-auto" />
           </router-link>
           <p class="max-w-sm text-sm leading-6 text-stone-400">
             Create an account to start training and see your progress as you learn new words.
