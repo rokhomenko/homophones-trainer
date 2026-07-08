@@ -92,7 +92,7 @@ async function handleSpeak(word: string) {
         </div>
         <div class="flex flex-col gap-5 border-l border-stone-700/70 pl-5 text-stone-300">
           <router-link to="/training"
-            class="w-fit border border-[#9e553a]/70 bg-[#241812] px-7 py-4 text-lg font-black uppercase tracking-[0.22em] text-stone-100 shadow-[8px_8px_0_rgb(0_0_0/0.35)] hover:bg-[#2b1b14] hover:text-[#f0b180] sm:text-xl">
+            class="inline-flex w-fit items-center gap-3 border border-[#9e553a]/70 bg-[#241812] px-7 py-4 text-lg font-black uppercase tracking-[0.22em] text-stone-100 shadow-[8px_8px_0_rgb(0_0_0/0.35)] hover:bg-[#2b1b14] hover:text-[#f0b180] sm:text-xl">
             Go train
           </router-link>
           <p class="max-w-sm text-sm leading-6 text-stone-400">

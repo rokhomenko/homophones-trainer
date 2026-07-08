@@ -28,7 +28,7 @@ function toggleMenu() {
       </router-link>
 
       <!-- desktop -->
-      <div class="hidden items-center gap-5 text-sm font-medium uppercase tracking-[0.22em] text-stone-400 md:flex">
+      <div class="hidden self-center items-center gap-5 text-sm font-medium uppercase tracking-[0.22em] text-stone-400 md:flex">
         <template v-if="!auth.isAuthenticated">
           <router-link to="/auth/login" class="flex cursor-pointer rounded-full border border-stone-700/80 p-2 text-stone-300 hover:border-[#9e553a] hover:text-[#d99165]">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -72,7 +72,7 @@ function toggleMenu() {
       </div>
 
       <!-- hamburger -->
-      <button @click="toggleMenu" class="rounded-full border border-stone-700/80 p-2 text-stone-200 focus:outline-none md:hidden">
+      <button @click="toggleMenu" class="self-center rounded-full border border-stone-700/80 p-2 text-stone-200 focus:outline-none md:hidden">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
           class="size-6">
           <path stroke-linecap="round" stroke-linejoin="round"
