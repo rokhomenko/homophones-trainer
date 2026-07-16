@@ -78,7 +78,7 @@ async function handleSpeak(word: string) {
           <p class="mb-3 leading-7">
             This app might not be useful for native speakers or those with an English level of C1 and
             above. But for anyone who recently wondered how to correctly pronounce "beach" versus...
-            well, you know... this is for you.
+            well, you know... then this is for you.
           </p>
           <p class="mb-3 leading-7">
             <span class="mr-2 font-bold text-stone-100">What are Homophones?</span>
@@ -96,7 +96,7 @@ async function handleSpeak(word: string) {
             Go train
           </router-link>
           <p class="max-w-sm text-sm leading-6 text-stone-400">
-            Create an account to start training and see your progress as you learn new words.
+            Create an account to start training and see your progress as you learn how to pronounce words correctly.
           </p>
         </div>
       </div>
