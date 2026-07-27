@@ -21,6 +21,16 @@ const router = createRouter({
           component: () => import('@/views/TrainingView.vue'),
           meta: { requiresAuth: true },
         },
+        {
+          path: 'privacy-policy',
+          name: 'privacy-policy',
+          component: () => import('@/views/PrivacyPolicyView.vue'),
+        },
+        {
+          path: 'contact',
+          name: 'contact',
+          component: () => import('@/views/ContactView.vue'),
+        },
       ],
     },
     {
