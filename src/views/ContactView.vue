@@ -5,21 +5,56 @@ const email = ref('')
 const message = ref('')
 const emailTouched = ref(false)
 const submitted = ref(false)
+const isSending = ref(false)
+const submitError = ref('')
+const submitSuccess = ref(false)
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const isEmailValid = computed(() => emailRegex.test(email.value.trim()))
 const showEmailError = computed(() => (emailTouched.value || submitted.value) && !isEmailValid.value)
 
-function onSubmit() {
+async function onSubmit() {
   submitted.value = true
+  submitError.value = ''
+  submitSuccess.value = false
+
   if (!isEmailValid.value) {
     emailTouched.value = true
     return
   }
-  submitted.value = false
-  email.value = ''
-  message.value = ''
-  emailTouched.value = false
+
+  isSending.value = true
+
+  try {
+    const response = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify({
+        access_key: import.meta.env.VITE_WEB3FORMS_ACCESS_KEY,
+        email: email.value.trim(),
+        message: message.value.trim(),
+        subject: 'New message from Homophones Trainer',
+      }),
+    })
+    const result = (await response.json()) as { success: boolean; message?: string }
+
+    if (!response.ok || !result.success) {
+      throw new Error(result.message || 'Unable to send your message.')
+    }
+
+    submitted.value = false
+    email.value = ''
+    message.value = ''
+    emailTouched.value = false
+    submitSuccess.value = true
+  } catch (error) {
+    submitError.value = error instanceof Error ? error.message : 'Unable to send your message.'
+  } finally {
+    isSending.value = false
+  }
 }
 </script>
 
@@ -73,9 +108,16 @@ function onSubmit() {
         class="w-full resize-y border border-stone-700 px-4 py-3 text-sm text-stone-100 placeholder:text-stone-500 focus:border-[#9e553a] focus:outline-none rounded-xl sm:text-base" />
       <button
         type="submit"
-        class="border border-[#9e553a]/70 bg-[#241812] px-10 py-3 text-center text-sm font-black uppercase tracking-[0.18em] text-stone-100 shadow-[6px_6px_0_rgb(0_0_0/0.35)] hover:bg-[#2b1b14] rounded-xl">
-        Send
+        :disabled="isSending"
+        class="border border-[#9e553a]/70 bg-[#241812] px-10 py-3 text-center text-sm font-black uppercase tracking-[0.18em] text-stone-100 shadow-[6px_6px_0_rgb(0_0_0/0.35)] hover:bg-[#2b1b14] disabled:cursor-not-allowed disabled:opacity-60 rounded-xl">
+        {{ isSending ? 'Sending...' : 'Send' }}
       </button>
+      <p v-if="submitSuccess" class="text-sm text-emerald-400" role="status">
+        Your message has been sent. Thank you!
+      </p>
+      <p v-if="submitError" class="text-sm text-[#e09773]" role="alert">
+        {{ submitError }}
+      </p>
     </form>
   </section>
 </template>
