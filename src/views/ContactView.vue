@@ -1,5 +1,24 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+
+type HCaptchaApi = {
+  render: (
+    container: HTMLElement,
+    options: {
+      sitekey: string
+      theme: 'dark'
+      callback: (token: string) => void
+      'expired-callback': () => void
+      'error-callback': () => void
+    },
+  ) => string
+  reset: (widgetId?: string) => void
+  remove: (widgetId: string) => void
+}
+
+const HCAPTCHA_SITE_KEY = '50b2fe65-b00b-4b9e-ad62-3ba471098be2'
+const HCAPTCHA_CALLBACK_NAME = 'onWeb3FormsHCaptchaLoaded'
+const HCAPTCHA_SCRIPT_URL = `https://js.hcaptcha.com/1/api.js?render=explicit&recaptchacompat=off&onload=${HCAPTCHA_CALLBACK_NAME}`
 
 const email = ref('')
 const message = ref('')
@@ -8,10 +27,87 @@ const submitted = ref(false)
 const isSending = ref(false)
 const submitError = ref('')
 const submitSuccess = ref(false)
+const captchaElement = ref<HTMLDivElement | null>(null)
+const captchaToken = ref('')
+
+let captchaWidgetId: string | undefined
+let captchaLoadingPromise: Promise<void> | undefined
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const isEmailValid = computed(() => emailRegex.test(email.value.trim()))
 const showEmailError = computed(() => (emailTouched.value || submitted.value) && !isEmailValid.value)
+
+function getHCaptcha() {
+  return Reflect.get(window, 'hcaptcha') as HCaptchaApi | undefined
+}
+
+function loadHCaptcha() {
+  if (getHCaptcha()) {
+    return Promise.resolve()
+  }
+
+  if (captchaLoadingPromise) {
+    return captchaLoadingPromise
+  }
+
+  captchaLoadingPromise = new Promise<void>((resolve, reject) => {
+    Reflect.set(window, HCAPTCHA_CALLBACK_NAME, () => {
+      Reflect.deleteProperty(window, HCAPTCHA_CALLBACK_NAME)
+      resolve()
+    })
+
+    const script = document.createElement('script')
+    script.src = HCAPTCHA_SCRIPT_URL
+    script.async = true
+    script.defer = true
+    script.addEventListener(
+      'error',
+      () => {
+        Reflect.deleteProperty(window, HCAPTCHA_CALLBACK_NAME)
+        captchaLoadingPromise = undefined
+        reject(new Error('Unable to load captcha.'))
+      },
+      { once: true },
+    )
+    document.head.append(script)
+  })
+
+  return captchaLoadingPromise
+}
+
+onMounted(async () => {
+  try {
+    await loadHCaptcha()
+
+    if (!captchaElement.value) {
+      return
+    }
+
+    captchaWidgetId = getHCaptcha()?.render(captchaElement.value, {
+      sitekey: HCAPTCHA_SITE_KEY,
+      theme: 'dark',
+      callback: (token) => {
+        captchaToken.value = token
+        submitError.value = ''
+      },
+      'expired-callback': () => {
+        captchaToken.value = ''
+      },
+      'error-callback': () => {
+        captchaToken.value = ''
+        submitError.value = 'Captcha verification failed. Please try again.'
+      },
+    })
+  } catch (error) {
+    submitError.value = error instanceof Error ? error.message : 'Unable to load captcha.'
+  }
+})
+
+onBeforeUnmount(() => {
+  if (captchaWidgetId !== undefined) {
+    getHCaptcha()?.remove(captchaWidgetId)
+  }
+})
 
 async function onSubmit() {
   submitted.value = true
@@ -20,6 +116,11 @@ async function onSubmit() {
 
   if (!isEmailValid.value) {
     emailTouched.value = true
+    return
+  }
+
+  if (!captchaToken.value) {
+    submitError.value = 'Please complete the captcha verification.'
     return
   }
 
@@ -37,6 +138,7 @@ async function onSubmit() {
         email: email.value.trim(),
         message: message.value.trim(),
         subject: 'New message from Homophones Trainer',
+        'h-captcha-response': captchaToken.value,
       }),
     })
     const result = (await response.json()) as { success: boolean; message?: string }
@@ -54,6 +156,8 @@ async function onSubmit() {
     submitError.value = error instanceof Error ? error.message : 'Unable to send your message.'
   } finally {
     isSending.value = false
+    captchaToken.value = ''
+    getHCaptcha()?.reset(captchaWidgetId)
   }
 }
 </script>
@@ -106,6 +210,7 @@ async function onSubmit() {
         rows="5"
         placeholder="Your message"
         class="w-full resize-y border border-stone-700 px-4 py-3 text-sm text-stone-100 placeholder:text-stone-500 focus:border-[#9e553a] focus:outline-none rounded-xl sm:text-base" />
+      <div ref="captchaElement" class="min-h-[78px]"></div>
       <button
         type="submit"
         :disabled="isSending"
