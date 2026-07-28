@@ -2,6 +2,7 @@
 import { useAuthStore } from './stores/auth'
 import { onMounted } from 'vue'
 import { Analytics } from "@vercel/analytics/vue"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 const auth = useAuthStore()
 
 onMounted(() => {
@@ -13,6 +14,7 @@ onMounted(() => {
 
 <template>
   <Analytics />
+  <SpeedInsights />
   <router-view></router-view>
 </template>
 
