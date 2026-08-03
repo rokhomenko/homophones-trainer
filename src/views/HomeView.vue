@@ -21,7 +21,6 @@ onMounted(async () => {
 
 const homophonesGroup = computed(() => dictionaryStore.dictionaryWords.homophonesGroup)
 const nonHomophonesGroup = computed(() => dictionaryStore.dictionaryWords.nonHomophonesGroup)
-const isDisabled = ref(false)
 
 const showAllHomophones = ref(false)
 const showAllNonHomophones = ref(false)
@@ -51,12 +50,8 @@ const limitedNonHomophonesGroup = computed(() => {
     : nonHomophonesGroup.value
 })
 
-async function handleSpeak(word: string) {
-  if (isDisabled.value) return
-
-  isDisabled.value = true
-  await speak(word)
-  isDisabled.value = false
+function handleSpeak(word: string) {
+  speak(word)
 }
 </script>
 
@@ -114,7 +109,7 @@ async function handleSpeak(word: string) {
           </div>
           <ul v-for="group in limitedHomophonesGroup" :key="group.id"
             class="flex flex-row flex-wrap items-center justify-center gap-x-4">
-            <li v-for="word in group.words" :key="word.id" :disabled="isDisabled" @click="handleSpeak(word.word)"
+            <li v-for="word in group.words" :key="word.id" @click="handleSpeak(word.word)"
               class="my-2 flex cursor-pointer items-center gap-2 border border-dashed border-stone-700 bg-[#0f0e0c] px-3 py-2 text-stone-200 hover:border-[#9e553a] hover:text-[#d99165] md:my-3 rounded-xl">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="size-6">
@@ -146,7 +141,7 @@ async function handleSpeak(word: string) {
           </div>
           <ul v-for="group in limitedNonHomophonesGroup" :key="group.id"
             class="flex flex-row flex-wrap items-center justify-center gap-x-4">
-            <li v-for="word in group.words" :key="word.id" :disabled="isDisabled" @click="handleSpeak(word.word)"
+            <li v-for="word in group.words" :key="word.id" @click="handleSpeak(word.word)"
               class="my-2 flex cursor-pointer items-center gap-2 border border-dashed border-stone-700 bg-[#0f0e0c] px-3 py-2 text-stone-200 hover:border-[#9e553a] hover:text-[#d99165] md:my-3 rounded-xl">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="size-6">
