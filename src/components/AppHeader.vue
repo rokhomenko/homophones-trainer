@@ -6,8 +6,8 @@ import router from '@/router'
 const auth = useAuthStore()
 const isOpen = ref(false)
 
-function logout() {
-  auth.logout()
+async function logout() {
+  await auth.logout()
   router.push({ name: 'login' })
 }
 

@@ -1,19 +1,18 @@
 import { defineStore } from 'pinia'
 import { api } from '@/api/axios'
 import { AxiosError } from 'axios'
-import type { AuthState, LoginResponse, User } from '@/types/auth'
+import type { AuthState, User } from '@/types/auth'
 import type { ApiError } from '@/types/api'
 
 export const useAuthStore = defineStore('auth', {
   state: (): AuthState => ({
     user: null,
-    token: localStorage.getItem('token'),
     loading: false,
     error: null,
   }),
 
   getters: {
-    isAuthenticated: (state) => !!state.token,
+    isAuthenticated: (state) => !!state.user,
   },
 
   actions: {
@@ -35,16 +34,11 @@ export const useAuthStore = defineStore('auth', {
       this.loading = true
       this.error = null
       try {
-        const res = await api.post<LoginResponse>(`/auth/login`, {
+        const res = await api.post<User>(`/auth/login`, {
           email,
           password,
         })
-        this.token = res.data.accessToken
-        localStorage.setItem('token', this.token)
-        this.user = {
-          userId: res.data.userId,
-          email: res.data.email,
-        } as User
+        this.user = res.data
       } catch (err) {
         const error = err as AxiosError<ApiError>
         this.error = error.response?.data?.message || error.message
@@ -54,24 +48,24 @@ export const useAuthStore = defineStore('auth', {
     },
 
     async getUser() {
-      if (!this.token) return
       try {
-        const res = await api.get<User>(`/auth/me`, {
-          headers: { Authorization: `Bearer ${this.token}` },
-        })
+        const res = await api.get<User>(`/auth/me`)
         this.user = res.data
       } catch (err) {
         const error = err as AxiosError<ApiError>
         if (error.response?.status === 401) {
-          this.logout()
+          this.user = null
         }
       }
     },
 
-    logout() {
-      this.user = null
-      this.token = null
-      localStorage.removeItem('token')
+    async logout() {
+      try {
+        await api.post(`/auth/logout`)
+      } catch {
+      } finally {
+        this.user = null
+      }
     },
   },
 })

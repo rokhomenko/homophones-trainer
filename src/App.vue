@@ -5,7 +5,7 @@ import { Analytics } from "@vercel/analytics/vue"
 const auth = useAuthStore()
 
 onMounted(() => {
-  if (auth.token && !auth.user) {
+  if (auth.user === null) {
     auth.getUser()
   }
 })
