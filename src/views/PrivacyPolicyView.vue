@@ -58,10 +58,12 @@
 
       <h2 class="text-lg font-bold text-stone-100">5. Local Storage</h2>
       <p>
-        The Service stores an authentication token in your browser's Local Storage so you can remain
-        signed in between visits.
+        The Service does not store any data in your browser's Local Storage or Session Storage.
       </p>
-      <p>No data is stored in Session Storage.</p>
+      <p>
+        Authentication is handled via an HttpOnly cookie that is not accessible to JavaScript and
+        is sent automatically with each request to the backend.
+      </p>
 
       <h2 class="text-lg font-bold text-stone-100">6. Email Communications</h2>
       <p>The Service does not send emails.</p>

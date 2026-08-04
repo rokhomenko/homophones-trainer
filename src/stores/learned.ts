@@ -64,9 +64,7 @@ export const useLearnedStore = defineStore('learned', {
         const userId = authStore.user?.userId
         if (!userId) return
 
-        const res = await api.get<LearnedGroup[]>(`/learned/${userId}`, {
-          headers: { Authorization: `Bearer ${authStore.token}` },
-        })
+        const res = await api.get<LearnedGroup[]>(`/learned/${userId}`)
 
         this.learned_groups = res.data
 
