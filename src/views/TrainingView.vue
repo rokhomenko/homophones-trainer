@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, watch, ref } from 'vue'
+import { computed, onMounted, watch, ref, nextTick } from 'vue'
 import { useWordsStore } from '@/stores/words'
 import { useGroupsStore } from '@/stores/groups'
 import { useLearnedStore } from '@/stores/learned'
@@ -13,6 +13,7 @@ const groupsStore = useGroupsStore()
 const learnedStore = useLearnedStore()
 const trainingStore = useTrainingStore()
 const isDisabled = ref(false)
+const isReady = ref(false)
 
 const showAnswer = ref(false)
 const answeredCurrentWord = ref(false)
@@ -31,6 +32,7 @@ onMounted(async () => {
   }
 
   trainingStore.initTraining()
+  isReady.value = true
 })
 
 watch(
@@ -107,7 +109,11 @@ const isCurrentGroupHomophones = computed(() => {
 })
 
 function startNewTraining() {
+  isReady.value = false
   trainingStore.initTraining()
+  nextTick(() => {
+    isReady.value = true
+  })
 }
 
 async function handleSpeak(word: string) {
@@ -120,6 +126,10 @@ async function handleSpeak(word: string) {
 </script>
 
 <template>
+  <div v-if="!isReady" class="flex justify-center py-20">
+    <p class="text-xl text-stone-400">wait...</p>
+  </div>
+  <template v-else>
   <div class="flex justify-center" v-if="trainingStore.finished">
     <div class="flex flex-col items-center">
       <TrainingResult />
@@ -165,4 +175,5 @@ async function handleSpeak(word: string) {
     </div>
     <TrainingProgress />
   </div>
+  </template>
 </template>
