@@ -150,7 +150,8 @@ async function handleSpeak(word: string) {
       <div
         class="mx-auto flex w-full max-w-4xl flex-col items-center border border-stone-800/90 bg-[#15130f]/88 px-5 py-8 text-center shadow-[0_18px_70px_rgb(0_0_0/0.28)] rounded-[2rem] sm:px-8"
         v-if="!trainingStore.finished">
-        <div class="text-xs font-semibold uppercase tracking-[0.28em] text-[#d99165]">Make it louder</div>
+        <h1 class="mt-6 text-2xl font-black uppercase tracking-[0.18em] text-stone-100 sm:text-3xl">Choose which word you hear</h1>
+        <div class="mt-8 text-xs font-semibold uppercase tracking-[0.28em] text-[#d99165]">Make it louder</div>
         <div class="mt-2 text-sm text-stone-500">Tap the speaker to hear again</div>
         <button v-if="trainingStore.currentWord?.word.word" :disabled="isDisabled"
           @click="handleSpeak(trainingStore.currentWord?.word.word)"
