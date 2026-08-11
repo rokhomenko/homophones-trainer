@@ -102,8 +102,8 @@ function selectAllWords() {
 
 const allWordsButtonClass = computed(() => {
   if (!answeredCurrentWord.value) return ''
-  if (isCurrentGroupHomophones.value) return 'border-[#d99165] bg-[#3a2419] text-[#f0b180]'
-  if (allWordsSelected.value && !isCurrentGroupHomophones.value) return 'border-[#d99165] bg-[#3a2419] text-[#f0b180]'
+  if (isCurrentGroupHomophones.value) return 'border-[#6f7d5a] bg-[#1f281c] text-[#c9d7a5]'
+  if (allWordsSelected.value) return 'border-[#d99165] bg-[#3a2419] text-[#f0b180]'
   return ''
 })
 
