@@ -43,8 +43,7 @@ watch(
       speak(newWord.word.word)
       trainingStore.countShown()
     }
-  },
-  { immediate: true }
+  }
 )
 
 const hasNextWord = computed(() =>
