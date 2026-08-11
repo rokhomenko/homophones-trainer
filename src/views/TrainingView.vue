@@ -102,8 +102,10 @@ function selectAllWords() {
 
 const allWordsButtonClass = computed(() => {
   if (!answeredCurrentWord.value) return ''
-  if (isCurrentGroupHomophones.value) return 'border-[#6f7d5a] bg-[#1f281c] text-[#c9d7a5]'
-  if (allWordsSelected.value) return 'border-[#d99165] bg-[#3a2419] text-[#f0b180]'
+  if (isCurrentGroupHomophones.value)
+    return 'border-[#9bd96b] bg-[#2d4a22] text-[#d8f5a8] shadow-[0_0_22px_rgb(140_200_80/0.35)]'
+  if (allWordsSelected.value)
+    return 'border-[#ff9b5e] bg-[#5a2c14] text-[#ffd1a8] shadow-[0_0_22px_rgb(255_155_94/0.4)]'
   return ''
 })
 
@@ -164,8 +166,8 @@ async function handleSpeak(word: string) {
             <li v-for="w in trainingStore.currentWord?.group.words" :key="w.id" @click="selectWord(w.id)"
               class="flex w-fit cursor-pointer gap-2 border border-stone-700 bg-[#0f0e0c] px-4 py-3 font-bold text-stone-100 transition-colors hover:border-[#9e553a] hover:text-[#d99165] rounded-xl"
               :class="{
-                'border-[#6f7d5a] bg-[#1f281c] text-[#c9d7a5]': answeredCurrentWord && !isCurrentGroupHomophones && w.id === trainingStore.currentWord?.word.id,
-                'border-[#d99165] bg-[#3a2419] text-[#f0b180]': answeredCurrentWord && !allWordsSelected && (isCurrentGroupHomophones || (selectedWordId === w.id && w.id !== trainingStore.currentWord?.word.id))
+                'border-[#9bd96b] bg-[#2d4a22] text-[#d8f5a8] shadow-[0_0_22px_rgb(140_200_80/0.35)]': answeredCurrentWord && !isCurrentGroupHomophones && w.id === trainingStore.currentWord?.word.id,
+                'border-[#ff9b5e] bg-[#5a2c14] text-[#ffd1a8] shadow-[0_0_22px_rgb(255_155_94/0.4)]': answeredCurrentWord && !allWordsSelected && (isCurrentGroupHomophones || (selectedWordId === w.id && w.id !== trainingStore.currentWord?.word.id))
               }">
               {{ w.word }}
             </li>
