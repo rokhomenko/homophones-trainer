@@ -4,6 +4,7 @@ import { useWordsStore } from '@/stores/words'
 import { useGroupsStore } from '@/stores/groups'
 import { useDictionaryStore } from '@/stores/dictionary'
 import { speak } from '@/utils/speak'
+import TrainingExample from '@/components/training/TrainingExample.vue'
 
 const wordsStore = useWordsStore()
 const groupsStore = useGroupsStore()
@@ -60,7 +61,7 @@ function handleSpeak(word: string) {
     <section
       class="relative overflow-hidden border border-stone-800/90 bg-[#161411]/82 px-5 py-8 shadow-[0_24px_90px_rgb(0_0_0/0.28)] rounded-[2rem] sm:px-8 lg:px-12">
       <div class="absolute -right-20 -top-28 h-64 w-64 rounded-full bg-[#8c3f2d]/15 blur-3xl"></div>
-      <div class="relative grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
+      <div class="relative grid gap-8 lg:grid-cols-[1.15fr_0.85fr]">
         <div class="max-w-3xl text-stone-300">
           <p class="mb-4 text-xs font-semibold uppercase tracking-[0.32em] text-[#d99165]">ear training / no
             echolocation required</p>
@@ -85,14 +86,17 @@ function handleSpeak(word: string) {
             different, but it’s not always obvious how to pronounce them correctly.
           </p>
         </div>
-        <div class="flex flex-col gap-5 border-l border-stone-700/70 pl-5 text-stone-300">
-          <router-link to="/training"
-            class="inline-flex w-fit items-center gap-3 border border-[#9e553a]/70 bg-[#241812] px-7 py-4 text-lg font-black uppercase tracking-[0.22em] text-stone-100 shadow-[8px_8px_0_rgb(0_0_0/0.35)] hover:bg-[#2b1b14] hover:text-[#f0b180] sm:text-xl">
-            Go train
-          </router-link>
-          <p class="max-w-sm text-sm leading-6 text-stone-400">
-            Create an account to start training and see your progress as you learn how to pronounce words correctly.
-          </p>
+        <div class="flex flex-col gap-6 lg:h-full">
+          <TrainingExample />
+          <div class="flex flex-col gap-5 border-l border-stone-700/70 pl-5 text-stone-300 lg:mt-auto">
+            <router-link to="/training"
+              class="inline-flex w-fit items-center gap-3 border border-[#9e553a]/70 bg-[#241812] px-7 py-4 text-lg font-black uppercase tracking-[0.22em] text-stone-100 shadow-[8px_8px_0_rgb(0_0_0/0.35)] hover:bg-[#2b1b14] hover:text-[#f0b180] sm:text-xl">
+              Go train
+            </router-link>
+            <p class="max-w-sm text-sm leading-6 text-stone-400">
+              Create an account to start training and see your progress as you learn how to pronounce words correctly.
+            </p>
+          </div>
         </div>
       </div>
     </section>
