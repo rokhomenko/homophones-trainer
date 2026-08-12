@@ -12,10 +12,14 @@ const calculateRowWidth = computed(() => {
     })
   })
 })
+
+const hasCorrectAnswers = computed(() =>
+  calculateRowWidth.value.some(group => group.some(width => width > 0))
+)
 </script>
 
 <template>
-  <div class="flex flex-col rounded-[1.5rem] border border-stone-800/90 bg-[#15130f]/72 p-4 shadow-[0_18px_60px_rgb(0_0_0/0.2)]">
+  <div v-if="hasCorrectAnswers" class="flex flex-col rounded-[1.5rem] border border-stone-800/90 bg-[#15130f]/72 p-4 shadow-[0_18px_60px_rgb(0_0_0/0.2)]">
     <div class="flex w-full flex-col" v-for="(g, groupIndex) in trainingStore.showResults" :key="g.groupId">
       <div v-for="(w, wordIndex) in g.words" :key="w.id">
         <div v-if="calculateRowWidth[groupIndex][wordIndex] > 0"

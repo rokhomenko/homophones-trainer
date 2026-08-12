@@ -3,12 +3,14 @@ import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { useWordsStore } from '@/stores/words'
 import { useGroupsStore } from '@/stores/groups'
 import { useDictionaryStore } from '@/stores/dictionary'
+import { useAuthStore } from '@/stores/auth'
 import { speak } from '@/utils/speak'
 import TrainingExample from '@/components/training/TrainingExample.vue'
 
 const wordsStore = useWordsStore()
 const groupsStore = useGroupsStore()
 const dictionaryStore = useDictionaryStore()
+const authStore = useAuthStore()
 const isLoading = ref(true)
 
 onMounted(async () => {
@@ -88,12 +90,13 @@ function handleSpeak(word: string) {
         </div>
         <div class="flex flex-col gap-6 lg:h-full">
           <TrainingExample />
-          <div class="flex flex-col gap-5 border-l border-stone-700/70 pl-5 text-stone-300 lg:mt-auto">
+          <div class="flex flex-col gap-5 lg:mt-auto"
+            :class="{ 'border-l border-stone-700/70 pl-5': !authStore.isAuthenticated }">
             <router-link to="/training"
-              class="inline-flex w-fit items-center gap-3 border border-[#9e553a]/70 bg-[#241812] px-7 py-4 text-lg font-black uppercase tracking-[0.22em] text-stone-100 shadow-[8px_8px_0_rgb(0_0_0/0.35)] hover:bg-[#2b1b14] hover:text-[#f0b180] sm:text-xl">
+              class="inline-flex w-fit items-center gap-3 border border-[#9e553a]/70 bg-[#241812] px-7 py-4 text-lg font-black uppercase tracking-[0.22em] text-stone-100 shadow-[8px_8px_0_rgb(0_0_0/0.35)] hover:bg-[#2b1b14] hover:text-[#f0b180] self-center mt-4 md:self-start md:mt-0 sm:text-xl">
               Go train
             </router-link>
-            <p class="max-w-sm text-sm leading-6 text-stone-400">
+            <p v-if="!authStore.isAuthenticated" class="max-w-sm text-sm leading-6 text-stone-400">
               Create an account to start training and see your progress as you learn how to pronounce words correctly.
             </p>
           </div>
