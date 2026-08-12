@@ -4,8 +4,8 @@ import { speak } from '@/utils/speak'
 import type { ExamplePair, PairState } from '@/types/example'
 
 const examples: ExamplePair[] = [
-  { words: ['beach', 'bitch'], homophones: false, play: 0 },
   { words: ['sea', 'see'], homophones: true, play: 0 },
+  { words: ['beach', 'bitch'], homophones: false, play: 0 },
   { words: ['hill', 'heal'], homophones: false, play: 1 },
   { words: ['night', 'knight'], homophones: true, play: 0 },
 ]
