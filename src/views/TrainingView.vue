@@ -4,7 +4,7 @@ import { useWordsStore } from '@/stores/words'
 import { useGroupsStore } from '@/stores/groups'
 import { useLearnedStore } from '@/stores/learned'
 import { useTrainingStore } from '@/stores/training'
-import TrainingProgress from '@/components/training/TrainingProgress.vue'
+// import TrainingProgress from '@/components/training/TrainingProgress.vue' // temporarily hidden
 import { speak } from '@/utils/speak'
 import TrainingResult from '@/components/training/TrainingResult.vue'
 
@@ -55,6 +55,11 @@ watch(
 const hasNextWord = computed(() =>
   trainingStore.currentWordIndex < trainingStore.trainingQueue.length - 1
 )
+
+const wordProgress = computed(() => ({
+  current: trainingStore.currentWordIndex + 1,
+  total: trainingStore.trainingQueue.length
+}))
 
 async function nextWord() {
   if (hasNextWord.value) {
@@ -150,9 +155,13 @@ async function handleSpeak(word: string) {
       <div
         class="mx-auto flex w-full max-w-4xl flex-col items-center border border-stone-800/90 bg-[#15130f]/88 px-5 py-8 text-center shadow-[0_18px_70px_rgb(0_0_0/0.28)] rounded-[2rem] sm:px-8"
         v-if="!trainingStore.finished">
-        <h1 class="mt-6 text-2xl font-black uppercase tracking-[0.18em] text-stone-100 sm:text-3xl">Choose which word you hear</h1>
+        <h1 class="mt-6 text-2xl font-black uppercase tracking-[0.18em] text-stone-100 sm:text-3xl">Choose which word
+          you hear</h1>
         <div class="mt-8 text-xs font-semibold uppercase tracking-[0.28em] text-[#d99165]">Make it louder</div>
         <div class="mt-2 text-sm text-stone-500">Tap the speaker to hear again</div>
+        <div class="mt-4 text-xs font-medium tracking-[0.2em] text-stone-600">
+          {{ wordProgress.current }} of {{ wordProgress.total }}
+        </div>
         <button v-if="trainingStore.currentWord?.word.word" :disabled="isDisabled"
           @click="handleSpeak(trainingStore.currentWord?.word.word)"
           class="my-14 rounded-full border border-stone-700 bg-[#0f0e0c] p-8 text-stone-200 shadow-[0_0_50px_rgb(140_63_45/0.16)] hover:border-[#9e553a] hover:text-[#d99165] disabled:opacity-50">
@@ -176,7 +185,7 @@ async function handleSpeak(word: string) {
           <button @click="selectAllWords"
             class="flex cursor-pointer gap-2 border border-stone-700 bg-[#0f0e0c] px-4 py-3 font-bold text-stone-100 transition-colors hover:border-[#9e553a] hover:text-[#d99165] rounded-xl"
             :class="allWordsButtonClass">
-            All words sound the same
+            All these words sound the same
           </button>
         </div>
         <button
@@ -185,7 +194,7 @@ async function handleSpeak(word: string) {
           {{ hasNextWord ? 'Next' : 'Finish' }}
         </button>
       </div>
-      <TrainingProgress />
+      <!-- <TrainingProgress /> -->
     </div>
   </template>
 </template>
