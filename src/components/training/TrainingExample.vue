@@ -102,7 +102,7 @@ function selectAll(pairIdx: number) {
               'border-[#ff9b5e] bg-[#5a2c14] text-[#ffd1a8] shadow-[0_0_22px_rgb(255_155_94/0.4)]':
                 pairStates[idx].answered && !item.homophones && pairStates[idx].selected === 'all',
             }">
-            All words sound the same
+            All these words sound the same
           </button>
         </div>
       </div>

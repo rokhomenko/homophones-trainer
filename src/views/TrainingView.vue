@@ -185,7 +185,7 @@ async function handleSpeak(word: string) {
           <button @click="selectAllWords"
             class="flex cursor-pointer gap-2 border border-stone-700 bg-[#0f0e0c] px-4 py-3 font-bold text-stone-100 transition-colors hover:border-[#9e553a] hover:text-[#d99165] rounded-xl"
             :class="allWordsButtonClass">
-            All words sound the same
+            All these words sound the same
           </button>
         </div>
         <button
