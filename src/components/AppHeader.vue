@@ -21,7 +21,7 @@ function toggleMenu() {
     <div class="mx-auto flex max-w-7xl flex-row items-start justify-between px-4 pb-3 sm:px-6">
       <router-link to="/#">
         <div class="flex flex-row items-center gap-3">
-          <img src="../../public/logo-grey.png" width="40px" class="opacity-85" />
+          <img src="../../public/logo-grey.png" width="40px" height="61px" class="opacity-85" />
           <h1 class="cursor-pointer text-xl font-black tracking-[-0.04em] text-stone-100 hover:text-[#d99165] max-[400px]:text-lg sm:text-2xl">
             Homophones Trainer</h1>
         </div>
